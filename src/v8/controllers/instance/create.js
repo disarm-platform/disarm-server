@@ -24,7 +24,7 @@ module.exports = async function create(req, res) {
   }
 
   try {
-    const result = await req.db.instance.insert({name: req.body.name})
+    const result = await req.db.collection('instance').insertOne({name: req.body.name})
     res.send(result)
   } catch (e) {
     res.status(500).send(e)

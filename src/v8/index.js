@@ -8,6 +8,7 @@ const assignment_plan = require('./controllers/assignment_plan')
 const config = require('./controllers/config')
 const geodata = require('./controllers/geodata')
 const season = require('./controllers/season')
+const instance = require('./controllers/instance')
 
 const {url_base} = require('./lib/url_helper')
 
@@ -199,6 +200,11 @@ const endpoints = [
         method: DELETE,
         path:'/geodata',
         callback: geodata.remove
+    },
+    {
+        method: POST,
+        path: '/instance',
+        callback: instance.create
     }
 ]
 
@@ -211,14 +217,15 @@ module.exports = function (app, version) {
     }
 
     const make_endpoint = (endpoint) => {
-        Auth.addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
+        // Auth.addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
         app[endpoint.method](v(endpoint.path), endpoint.callback)
     }
 
-    const version_path_regex = new RegExp(version_prefix)
-    app.use(version_path_regex, Auth.authMiddleware)
-    app.use(version_path_regex, Auth.endpointPermissionsMiddleware)
-    app.use(version_path_regex, Auth.optionsMiddleware)
-
+    // Not sure we can still use this middleware, 
+    // we will probably also need to remove the permissions from the endpoint definitions above. 
+    // const version_path_regex = new RegExp(version_prefix)
+    // app.use(version_path_regex, Auth.authMiddleware)
+    // app.use(version_path_regex, Auth.endpointPermissionsMiddleware)
+    // app.use(version_path_regex, Auth.optionsMiddleware)
     endpoints.forEach(make_endpoint)
 }
