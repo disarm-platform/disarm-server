@@ -7,7 +7,7 @@ const record = require('./controllers/record')
 const assignment_plan = require('./controllers/assignment_plan')
 const config = require('./controllers/config')
 const geodata = require('./controllers/geodata')
-const seasons = require('./controllers/seasons')
+const season = require('./controllers/season')
 
 const {url_base} = require('./lib/url_helper')
 
@@ -125,9 +125,9 @@ const endpoints = [
     },
     {
         permissions:['write:seasons'],
-        method:PUT,
+        method: PUT,
         path:'/seasons',
-        callback:seasons[PUT]
+        callback: season.update
     },
     {
         permissions:['write:config'],
