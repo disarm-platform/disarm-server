@@ -109,7 +109,7 @@ const endpoints = [
         permissions: ['read:irs_tasker'],
         method: GET,
         path: '/assignment_plan/current',
-        callback: assignment_plan.read
+        callback: assignment_plan.findOne
     },
     {
         permissions: ['write:irs_tasker'],
