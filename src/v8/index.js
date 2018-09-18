@@ -1,5 +1,4 @@
 const Auth = require('./lib/auth')
-const addPermission = Auth.addPermission
 
 // TODO: rename to auth, when /lib/Auth has been renamed/moved
 const auth_controller = require('./controllers/auth')
@@ -212,7 +211,7 @@ module.exports = function (app, version) {
     }
 
     const make_endpoint = (endpoint) => {
-        addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
+        Auth.addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
         app[endpoint.method](v(endpoint.path), endpoint.callback)
     }
 
