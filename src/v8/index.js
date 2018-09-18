@@ -50,7 +50,7 @@ const endpoints = [
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
         path: '/plan/detail/:plan_id',
-        callback: plan.plan_by_id
+        callback: plan.findOne
     },
     {
         permissions: ['write:irs_plan', 'write:irs_monitor', 'write:irs_tasker'],
@@ -68,7 +68,7 @@ const endpoints = [
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
         path: '/plan/list',
-        callback: plan.list_all
+        callback: plan.find
     },
     {
         permissions: ['write:irs_plan'],
@@ -80,7 +80,7 @@ const endpoints = [
         permissions: ['read:irs_plan', 'read:irs_monitor'],
         method: GET,
         path: '/plan/current',
-        callback: plan.get_current
+        callback: plan.current
     },
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
