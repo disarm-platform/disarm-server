@@ -5,14 +5,6 @@ const fetch = require('node-fetch');
 // Get geodata from cache or remote
 
 
-const root_url = (instance_slug) => {
-  if (process.env['CLIENT_APP_URL']) {
-    return `https://${instance_slug}.${process.env['CLIENT_APP_URL']}`
-  } else {
-    return 'http://localhost:8080'
-  }
-}
-
 const get_instance_config = async (req) => {
   const instance_slug = req.country
   const config_collection = req.db.collection('config');
