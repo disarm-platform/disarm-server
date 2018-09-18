@@ -1,7 +1,8 @@
 const Auth = require('./lib/auth')
 const addPermission = Auth.addPermission
 
-const login = require('./controllers/login')
+// TODO: rename to auth, when /lib/Auth has been renamed/moved
+const auth_controller = require('./controllers/auth')
 const plan = require('./controllers/plan')
 const record = require('./controllers/record')
 const assignment_plan = require('./controllers/assignment_plan')
@@ -43,7 +44,7 @@ const endpoints = [
         permissions: ['*'],
         method: POST,
         path: '/login',
-        callback: login.login
+        callback: auth_controller.login
     },
     {
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
