@@ -166,39 +166,39 @@ const endpoints = [
         callback: config.remove
     },{
         permissions:['write:config'],
-        method:POST,
+        method: POST,
         path:'/geodata/:instance/:spatial_hierarchy',
-        callback:geodata[POST]
+        callback: geodata.create
     },
     {
         permissions:['*'],
-        method:GET,
+        method: GET,
         path:'/geodata',
-        callback:geodata[GET]
+        callback:geodata.findOne
     },
     {
         permissions:['*'],
         method:GET,
         path:'/geodata/:instance',
-        callback:geodata[GET]
+        callback: geodata.findOne
     },
     {
         permissions:['*'],
-        method:GET,
+        method: GET,
         path:'/geodata/:instance/:spatial_hierarchy',
-        callback:geodata[GET]
+        callback: geodata.findOne
     },
     {
         permissions:['write:config'],
-        method:PUT,
+        method: PUT,
         path:'/geodata',
-        callback:geodata[PUT]
+        callback:geodata.update
     },
     {
         permissions:['write:config'],
-        method:DELETE,
+        method: DELETE,
         path:'/geodata',
-        callback:geodata[DELETE]
+        callback: geodata.remove
     }
 ]
 
