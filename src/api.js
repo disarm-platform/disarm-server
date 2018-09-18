@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 const Raven = require('raven')
 const compression = require('compression')
 const expressMongoDb = require('express-mongo-db')
-const application_server = require('./application-registry')
 
 // Logging
 const morgan = require('morgan')
@@ -75,7 +74,6 @@ if (process.env.NODE_ENV === 'production') {
     app.use(Raven.errorHandler())
 }
 
-application_server.attach_waterline_to_express(app);
 
 module.exports = {
     app
