@@ -119,9 +119,9 @@ const endpoints = [
     },
     {
         permissions:['write:config'],
-        method:POST,
+        method: POST,
         path:'/config',
-        callback:config[POST]
+        callback:config.create
     },
     {
         permissions:['write:seasons'],
@@ -133,37 +133,37 @@ const endpoints = [
         permissions:['write:config'],
         method:POST,
         path:'/config/:config_id',
-        callback:config[POST]
+        callback:config.create
     },
     {
         permissions:['*'],
         method:GET,
         path:'/config',
-        callback:config[GET]
+        callback:config.findOne
     },
     {
         permissions:['*'],
         method:GET,
         path:'/config/:config_id',
-        callback:config[GET]
+        callback:config.findOne
     },
     {
         permissions:['write:config'],
-        method:PUT,
+        method: PUT,
         path:'/config',
-        callback:config[PUT]
+        callback: config.update
     },
     {
         permissions:['write:config'],
-        method:PUT,
+        method: PUT,
         path:'/config/:config_id',
-        callback:config[PUT]
+        callback: config.update
     },
     {
         permissions:['write:config'],
-        method:DELETE,
+        method: DELETE,
         path:'/config',
-        callback:config[DELETE]
+        callback: config.remove
     },{
         permissions:['write:config'],
         method:POST,
