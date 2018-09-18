@@ -86,13 +86,13 @@ const endpoints = [
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
         method: GET,
         path: '/record/all',
-        callback: record.get_all
+        callback: record.find
     },
     {
         permissions: ['read:irs_record_point'],
         method: GET,
         path: '/record/filtered',
-        callback: record.date_filtered
+        callback: record.filtered
     },
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
