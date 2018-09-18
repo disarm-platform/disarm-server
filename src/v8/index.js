@@ -1,13 +1,13 @@
 const Auth = require('./lib/auth')
 const addPermission = Auth.addPermission
 
-const login = require('./routes/login')
-const plan = require('./routes/plan')
-const record = require('./routes/record')
-const assignment_plan = require('./routes/assignment_plan')
-const config = require('./routes/config')
-const geodata = require('./routes/geodata')
-const seasons = require('./routes/seasons')
+const login = require('./controllers/login')
+const plan = require('./controllers/plan')
+const record = require('./controllers/record')
+const assignment_plan = require('./controllers/assignment_plan')
+const config = require('./controllers/config')
+const geodata = require('./controllers/geodata')
+const seasons = require('./controllers/seasons')
 
 const {url_base} = require('./lib/url_helper')
 
