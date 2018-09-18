@@ -1,5 +1,5 @@
-const User_v5 = require('./lib/auth')
-const addPermission = User_v5.addPermission
+const Auth = require('./lib/auth')
+const addPermission = Auth.addPermission
 
 const login = require('./routes/login')
 const plan = require('./routes/plan')
@@ -8,8 +8,13 @@ const assignment_plan = require('./routes/assignment_plan')
 const cluster = require('./routes/foci/case_clusters')
 const case_location = require('./routes/foci/case_locations')
 const maas = require('./maas')
+const config = require('./routes/config')
+const geodata = require('./routes/geodata')
+const seasons = require('./routes/seasons')
 
-User_v5.updateUserList()
+const {url_base} = require('./lib/url_helper')
+
+Auth.updateUserList()
 // TODO: Remove side effect
 let _version = '';
 
@@ -23,6 +28,7 @@ const GET = 'get'
 const PUT = 'put'
 const DELETE = 'delete'
 
+
 const endpoints = [
     {
         permissions: ['*'],
@@ -34,7 +40,7 @@ const endpoints = [
         permissions: ['*'],
         method: GET,
         path: '/refresh_users',
-        callback: User_v5.forceUpdateUserList
+        callback: Auth.forceUpdateUserList
     },
     {
         permissions: ['*'],
@@ -45,13 +51,25 @@ const endpoints = [
     {
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
-        path: '/plan/current',
-        callback: plan.get_current
+        path: '/plan/detail/:plan_id',
+        callback: plan.plan_by_id
+    },
+    {
+        permissions: ['write:irs_plan', 'write:irs_monitor', 'write:irs_tasker'],
+        method: PUT,
+        path: '/plan/:_id',
+        callback: plan.update
+    },
+    {
+        permissions: ['write:irs_plan', 'write:irs_monitor', 'write:irs_tasker'],
+        method: DELETE,
+        path: '/plan/:_id',
+        callback: plan.remove
     },
     {
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
-        path: '/plan/all',
+        path: '/plan/list',
         callback: plan.list_all
     },
     {
@@ -61,10 +79,22 @@ const endpoints = [
         callback: plan.create
     },
     {
+        permissions: ['read:irs_plan', 'read:irs_monitor'],
+        method: GET,
+        path: '/plan/current',
+        callback: plan.get_current
+    },
+    {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
         method: GET,
         path: '/record/all',
         callback: record.get_all
+    },
+    {
+        permissions: ['read:irs_record_point'],
+        method: GET,
+        path: '/record/filtered',
+        callback: record.date_filtered
     },
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
@@ -161,6 +191,89 @@ const endpoints = [
         method: POST,
         path: '/foci/model/run',
         callback: maas.generate_foci
+    },
+    {
+        permissions:['write:config'],
+        method:POST,
+        path:'/config',
+        callback:config[POST]
+    },
+    {
+        permissions:['write:seasons'],
+        method:PUT,
+        path:'/seasons',
+        callback:seasons[PUT]
+    },
+    {
+        permissions:['write:config'],
+        method:POST,
+        path:'/config/:config_id',
+        callback:config[POST]
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/config',
+        callback:config[GET]
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/config/:config_id',
+        callback:config[GET]
+    },
+    {
+        permissions:['write:config'],
+        method:PUT,
+        path:'/config',
+        callback:config[PUT]
+    },
+    {
+        permissions:['write:config'],
+        method:PUT,
+        path:'/config/:config_id',
+        callback:config[PUT]
+    },
+    {
+        permissions:['write:config'],
+        method:DELETE,
+        path:'/config',
+        callback:config[DELETE]
+    },{
+        permissions:['write:config'],
+        method:POST,
+        path:'/geodata/:instance/:spatial_hierarchy',
+        callback:geodata[POST]
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/geodata',
+        callback:geodata[GET]
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/geodata/:instance',
+        callback:geodata[GET]
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/geodata/:instance/:spatial_hierarchy',
+        callback:geodata[GET]
+    },
+    {
+        permissions:['write:config'],
+        method:PUT,
+        path:'/geodata',
+        callback:geodata[PUT]
+    },
+    {
+        permissions:['write:config'],
+        method:DELETE,
+        path:'/geodata',
+        callback:geodata[DELETE]
     }
 ]
 
@@ -173,17 +286,14 @@ module.exports = function (app, version) {
     }
 
     const make_endpoint = (endpoint) => {
-        addPermission(endpoint.method, endpoint.path, endpoint.permissions)
+        addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
         app[endpoint.method](v(endpoint.path), endpoint.callback)
     }
 
     const version_path_regex = new RegExp(version_prefix)
-    console.log(version_path_regex)
-    app.use(version_path_regex, User_v5.authMiddleware)
-    app.use(version_path_regex, User_v5.endpointPermissionsMiddleware)
-    app.use(version_path_regex, User_v5.optionsMiddleware)
+    app.use(version_path_regex, Auth.authMiddleware)
+    app.use(version_path_regex, Auth.endpointPermissionsMiddleware)
+    app.use(version_path_regex, Auth.optionsMiddleware)
 
     endpoints.forEach(make_endpoint)
-
-
 }
