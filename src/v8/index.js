@@ -6,8 +6,6 @@ const plan = require('./routes/plan')
 const record = require('./routes/record')
 const assignment_plan = require('./routes/assignment_plan')
 const cluster = require('./routes/foci/case_clusters')
-const case_location = require('./routes/foci/case_locations')
-const maas = require('./maas')
 const config = require('./routes/config')
 const geodata = require('./routes/geodata')
 const seasons = require('./routes/seasons')
@@ -119,78 +117,6 @@ const endpoints = [
         method: POST,
         path: '/assignment_plan/create',
         callback: assignment_plan.create
-    },
-    {
-        permissions: ['read:foci'],
-        method: GET,
-        path: '/foci/case_clusters',
-        callback: cluster.get_all
-    },
-    {
-        permissions: ['write:foci'],
-        method: POST,
-        path: '/foci/case_clusters',
-        callback: cluster.create
-    },
-    {
-        permissions: ['write:foci'],
-        method: PUT,
-        path: '/foci/case_clusters',
-        callback: cluster.update
-    },
-    {
-        permissions: ['write:foci'],
-        method: DELETE,
-        path: '/foci/case_clusters',
-        callback: cluster.delete_cluster
-    },
-    {
-        permissions: ['read:foci'],
-        method: GET,
-        path: '/foci/number_of_case_clusters',
-        callback: cluster.count
-    },
-    {
-        permissions: ['read:foci'],
-        method: GET,
-        path: '/foci/case_locations',
-        callback: case_location.get_all,
-    },
-    {
-        permissions: ['write:foci'],
-        method: POST,
-        path: '/foci/case_locations',
-        callback: case_location.create
-    },
-    {
-        permissions: ['write:foci'],
-        method: POST,
-        path: '/foci/case_locations/bulk',
-        callback: case_location.create_bulk
-    },
-    {
-        permissions: ['write:foci'],
-        method: PUT,
-        path: '/foci/case_locations',
-        callback: case_location.update
-    },
-    {
-        permissions: ['write:foci'],
-        method: DELETE,
-        path: '/foci/case_locations',
-        callback: case_location.delete_case_location
-    },
-    {
-        permissions: ['read:foci'],
-        method: GET,
-        path: '/foci/number_of_case_locations',
-        callback: case_location.count
-    },
-    {
-        permissions: ['write:foci'],
-        method: POST,
-        path: '/foci/model/run',
-        callback: maas.generate_foci
     },
     {
         permissions:['write:config'],
