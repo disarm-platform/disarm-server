@@ -40,6 +40,9 @@ module.exports = async function create(req, res) {
     return res.status(401).send({ error: "Instance with instance_id could not be found" })
   }
 
+
+  // TODO: Ensure no user exists with username
+
   const encrypted_password = await bcrypt.hash(password, 10)
 
   const { insertedId } = await req.db.collection('users').insertOne({

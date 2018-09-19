@@ -11,7 +11,7 @@ test('POST /v8/user returns 401 when not logged in', async t => {
   const res = await request(app).post('/v8/user')
     .send()
 
-  t.is(res.status, 403)
+  t.is(res.status, 401)
 })
 
 
