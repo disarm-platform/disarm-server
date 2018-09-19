@@ -9,6 +9,7 @@ const config = require('./controllers/config')
 const geodata = require('./controllers/geodata')
 const season = require('./controllers/season')
 const instance = require('./controllers/instance')
+const user = require('./controllers/user')
 
 const {url_base} = require('./lib/url_helper')
 
@@ -205,6 +206,11 @@ const endpoints = [
         method: POST,
         path: '/instance',
         callback: instance.create
+    },
+    {
+        method: POST,
+        path: '/user',
+        callback: user.create
     }
 ]
 

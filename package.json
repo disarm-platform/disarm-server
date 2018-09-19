@@ -20,6 +20,7 @@
     "@turf/centroid": "^4.5.2",
     "@turf/inside": "^4.5.2",
     "@turf/turf": "^5.1.6",
+    "bcrypt": "^3.0.0",
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
     "cors": "^2.8.1",
@@ -60,11 +61,10 @@
   },
   "ava": {
     "files": [
-      "./test/**/*.test.js"
+      "./test/v8/**/*.test.js"
     ],
     "source": [
       "./src/**/*"
-    ],
-    "failFast": true
+    ]
   }
 }
