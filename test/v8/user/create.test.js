@@ -34,5 +34,5 @@ test('POST /v8/user can create user', async t => {
   const found_user = await db.collection('users').findOne({username: 'test_user'})
   t.is(found_user.username, 'test_user')
   t.is(found_user.instances.length, 1)
-  t.is(found_user.instances[0], insertedId.toString())
+  t.is(found_user.instances[0].toString(), insertedId.toString())
 })

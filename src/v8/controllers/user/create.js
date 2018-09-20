@@ -23,21 +23,21 @@ module.exports = async function create(req, res) {
   // TODO: Check if user is logged in and is allowed to create users, so is super-admin or admin for instance_id
 
   if (!username) {
-    return res.status(401).send({error: "username is required"})
+    return res.status(400).send({error: "username is required"})
   }
 
   if (!password) {
-    return res.status(401).send({ error: "password is required" })
+    return res.status(400).send({ error: "password is required" })
   }
 
   if (!instance_id) {
-    return res.status(401).send({ error: "instance_id is required" })
+    return res.status(400).send({ error: "instance_id is required" })
   }
 
   const instance = await req.db.collection('instances').findOne({ _id: ObjectID(instance_id)})
 
   if (!instance) {
-    return res.status(401).send({ error: "Instance with instance_id could not be found" })
+    return res.status(400).send({ error: "Instance with instance_id could not be found" })
   }
 
 
@@ -48,7 +48,8 @@ module.exports = async function create(req, res) {
   const { insertedId } = await req.db.collection('users').insertOne({
     username,
     encrypted_password,
-    instances: [instance_id]
+    access_level: 'general',
+    instances: [instance._id]
   })
 
   const user = req.db.collection('users').findOne({ _id: insertedId})

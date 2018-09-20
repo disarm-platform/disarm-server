@@ -5,5 +5,9 @@
  */
 
 const permission = {
-  
+  user_id: 'string/ObjectId',
+
+  instance_id: 'string/ObjectId',
+
+  value: 'string' // one of the allowed permissions in the form type:applet
 }
