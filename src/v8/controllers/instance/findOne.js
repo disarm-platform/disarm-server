@@ -21,7 +21,7 @@ module.exports = async function findOne(req, res) {
   }
 
   try {
-    const instance = await req.db.instance.findOne({ _id: ObjectID(req.param.id) })
+    const instance = await req.db.collection('instances').findOne({ _id: ObjectID(req.param.id) })
     res.send(instance)
   } catch (e) {
     res.status(500).send(e)
