@@ -3,6 +3,7 @@ import request from 'supertest'
 import bcrypt from 'bcrypt'
 import { app } from '../../../src/api'
 import { clear_db, get_db } from '../helper'
+import { ObjectID } from 'mongodb'
 
 test.afterEach.always('clear db ', async t => {
   await clear_db()
@@ -38,6 +39,10 @@ test('POST /v8/login logs user in', async t => {
     })
 
   t.is(res.status, 200)
+
+  const session = await db.collection('sessions').findOne({ user_id: ObjectID(res.body._id)})
+
+  t.is(res.body.key, session.api_key)
 
   // TODO: ensure api_key is returned and saved in session
 })

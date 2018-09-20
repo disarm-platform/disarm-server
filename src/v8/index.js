@@ -11,6 +11,8 @@ const season = require('./controllers/season')
 const instance = require('./controllers/instance')
 const user = require('./controllers/user')
 
+const {is_logged_in} = require('./lib/middleware/is_logged_in')
+
 const {url_base} = require('./lib/url_helper')
 
 Auth.updateUserList()
@@ -41,12 +43,12 @@ const endpoints = [
         path: '/refresh_users',
         callback: Auth.forceUpdateUserList
     },
-    {
-        permissions: ['*'],
-        method: POST,
-        path: '/login',
-        callback: auth_controller.login
-    },
+    // {
+    //     permissions: ['*'],
+    //     method: POST,
+    //     path: '/login',
+    //     callback: auth_controller.login
+    // },
     {
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
@@ -224,8 +226,11 @@ module.exports = function (app, version) {
 
     const make_endpoint = (endpoint) => {
         // Auth.addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
-        app[endpoint.method](v(endpoint.path), endpoint.callback)
+        app[endpoint.method](v(endpoint.path), is_logged_in, endpoint.callback)
     }
+
+    // moved the login route outside route definitions, so is_logged_in middleware is not applied.
+    app.post(v('/login'), auth_controller.login)
 
     // Not sure we can still use this middleware, 
     // we will probably also need to remove the permissions from the endpoint definitions above. 

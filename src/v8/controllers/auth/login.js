@@ -1,5 +1,6 @@
 // const User = require('../../lib/auth')
 const bcrypt = require('bcrypt')
+const uuid = require('uuid/v4')
 
 module.exports = async function login(req, res) {
   const {username, password} = req.body
@@ -19,7 +20,16 @@ module.exports = async function login(req, res) {
     return res.status(401).send(error)
   }
 
-  // TODO: Create session and api_key, send with user
+  const api_key = uuid()
+
+  await req.db.collection('sessions').insertOne({
+    user_id: user._id,
+    api_key
+  })
+
+  delete user.encrypted_password
+
+  user.key = api_key
 
   res.send(user)
 
