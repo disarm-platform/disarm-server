@@ -43,6 +43,4 @@ test('POST /v8/login logs user in', async t => {
   const session = await db.collection('sessions').findOne({ user_id: ObjectID(res.body._id)})
 
   t.is(res.body.key, session.api_key)
-
-  // TODO: ensure api_key is returned and saved in session
 })

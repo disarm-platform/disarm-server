@@ -41,7 +41,7 @@ async function create_user(user) {
 
   const created_user = await db.collection('users').findOne({_id: insertedId})
 
-  create_user.key = api_key
+  created_user.key = api_key
 
   return created_user
 }
