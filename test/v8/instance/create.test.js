@@ -17,7 +17,7 @@ test('POST /v8/instance returns 401 when not logged in', async t => {
 })
 
 
-test('POST /v8/instance can create instances', async t => {
+test('POST /v8/instance returns 401 when not a super-admin', async t => {
   const user = await create_user()
 
   const res = await request(app).post('/v8/instance')
@@ -25,8 +25,25 @@ test('POST /v8/instance can create instances', async t => {
     .send({
       name: 'test instance'
     })
-  
+
+  t.is(res.status, 401)
+})
+
+test('POST /v8/instance can create instances', async t => {
   const db = await get_db()
+  const user = await create_user()
+
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    value: 'super-admin'
+  })
+
+  const res = await request(app).post('/v8/instance')
+    .set('API-key', user.key)
+    .send({
+      name: 'test instance'
+    })
+  
 
   const number_of_docs = await db.collection('instances').count({name: 'test instance'})
   

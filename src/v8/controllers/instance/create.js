@@ -1,4 +1,4 @@
-
+const {can} = require('../../lib/helpers/can')
 /**
  * @api {post} /instance Create instance
  * @apiName Create Instance
@@ -13,10 +13,10 @@
 
 module.exports = async function create(req, res) {
 
-  // TODO: auth, check if user can create instance, i.e. if they are admin or super admin.
-  const allowed = true
+  const allowed = await can(req.user._id)
+  
   if (!allowed) {
-    return res.status(403).send()
+    return res.status(401).send()
   }
 
   if (!req.body.name) {
