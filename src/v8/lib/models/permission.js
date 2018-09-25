@@ -9,5 +9,7 @@ const permission = {
 
   instance_id: 'string/ObjectId',
 
-  value: 'string' // one of the allowed permissions in the form type:applet
+  // one of the allowed permissions in the form type:applet
+  // can also be one of basic, admin, super-admin
+  value: 'string' 
 }

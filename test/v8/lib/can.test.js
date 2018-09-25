@@ -7,16 +7,35 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('returns true for super-admins', async t => {
-  const user = await create_user({access_level: 'super-admin'})
+  const db = await get_db()
+  const user = await create_user()
+
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    value: 'super-admin'
+  })
+
   const result = await can(user._id)
 
   t.true(result)
 })
 
 test('returns true for if user is admin for instance', async t => {
+  const db = await get_db()
   // TODO: Create concept of admin for instance
-  const user = await create_user({ access_level: 'admin' })
-  const result = await can(user._id)
+  const user = await create_user()
+  
+  const { insertedId } = await db.collection('instances').insertOne({
+    name: 'my second instance'
+  })
+
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    instance_id: insertedId,
+    value: 'admin'
+  })
+
+  const result = await can(user._id, insertedId)
 
   t.true(result)
 })

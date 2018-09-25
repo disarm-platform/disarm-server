@@ -14,15 +14,30 @@ async function can(user_id, instance_id, permission_string) {
   // get user
   const user = await db.collection('users').findOne({ _id: ObjectID(user_id)})
   
+  if (!user) {
+    return false
+  }
+  
+  
+  const super_admin_permission = await db.collection('permissions').findOne({
+    user_id: ObjectID(user_id),
+    value: 'super-admin'
+  })
   // if user is super admin, return true
-  if (user.access_level === 'super-admin') {
+  if (super_admin_permission) {
     return true
   } 
 
-  // if user is admin for instance, return true
-  // if (user.instances.includes(instance_id)) {
-  //   return true
-  // }
+  const admin_permission = await db.collection('permissions').findOne({
+    user_id: ObjectID(user_id),
+    instance_id: ObjectID(instance_id),
+    value: 'admin'
+  })
+  // if user is admin for that instance, return true
+  if (admin_permission) {
+    return true
+  } 
+
 
   // check if user has permission for instance_id
   const permission = {

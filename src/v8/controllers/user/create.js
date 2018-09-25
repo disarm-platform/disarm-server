@@ -22,6 +22,7 @@ module.exports = async function create(req, res) {
 
   // TODO: Check if user is logged in and is allowed to create users, so is super-admin or admin for instance_id
 
+
   if (!username) {
     return res.status(400).send({error: "username is required"})
   }
@@ -48,12 +49,15 @@ module.exports = async function create(req, res) {
   const { insertedId } = await req.db.collection('users').insertOne({
     username,
     encrypted_password,
-    access_level: 'general',
-    instances: [instance._id]
   })
 
-  const user = req.db.collection('users').findOne({ _id: insertedId})
+  // create permission for user
+  await req.db.collection('permissions').insertOne({
+    user_id: insertedId,
+    instance_id: instance._id,
+    value: 'basic'
+  })
 
+  const user = await req.db.collection('users').findOne({ _id: insertedId})
   res.send(user)
-
 }

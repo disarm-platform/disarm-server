@@ -12,6 +12,7 @@ async function clear_db() {
   const db = await get_db()
   await db.collection('users').removeMany({})
   await db.collection('instances').removeMany({})
+  await db.collection('permissions').removeMany({})
   // await db.collection('record').removeMany({})
   // await db.collection('plan').removeMany({})
   // await db.collection('user').removeMany({})
