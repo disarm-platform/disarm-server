@@ -18,5 +18,7 @@ module.exports = async function remove(req, res) {
 
   await req.db.collection('users').deleteOne({ _id: ObjectID(user_id_to_remove)})
 
+  // TODO: Remove all the permissions from the user
+
   res.send({status: 'successfully removed user'})
 }
