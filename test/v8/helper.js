@@ -22,15 +22,9 @@ async function clear_db() {
 async function create_user(user) {
   const db = await get_db()
 
-  const instance_result = await db.collection('instances').insertOne({
-    name: 'test_instance'
-  })
-
   const { insertedId } = await db.collection('users').insertOne({
     username: 'nd', 
     encrypted_password: await bcrypt.hash('m', 10),
-    access_level: 'general',
-    instances: [instance_result.insertedId],
     ...user
   })
 
