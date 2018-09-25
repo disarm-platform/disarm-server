@@ -1,5 +1,6 @@
 const ObjectID = require('mongodb').ObjectID
 const bcrypt = require('bcrypt')
+const {can} = require('../../lib/helpers/can')
 
 /**
  * @api {post} /user Create user
@@ -19,6 +20,12 @@ const bcrypt = require('bcrypt')
 
 module.exports = async function create(req, res) {
   const {username, password, instance_id} = req.body
+
+  const allowed = await can(req.user._id, instance_id)
+
+  if (!allowed) {
+    return res.status(401).send({ error: "Not authorised to create users" })
+  }
 
   // TODO: Check if user is logged in and is allowed to create users, so is super-admin or admin for instance_id
 

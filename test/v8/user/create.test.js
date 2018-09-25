@@ -15,12 +15,29 @@ test('POST /v8/user returns 401 when not logged in', async t => {
   t.is(res.status, 401)
 })
 
+test('POST /v8/user returns 401 when logged in but not an admin for instance', async t => {
+  const user = await create_user()
+  const res = await request(app).post('/v8/user')
+    .set('API-key', user.key)
+    .send()
+
+  t.is(res.status, 401)
+  t.is(res.body.error, 'Not authorised to create users')
+})
+
+
 
 test('POST /v8/user creates a  user', async t => {
   const user = await create_user()
   const db = await get_db()
 
   const { insertedId } = await db.collection('instances').insertOne({name: 'test_instance'}) // create instance
+
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    instance_id: insertedId,
+    value: 'admin'
+  })
 
   const res = await request(app).post('/v8/user')
     .set('API-key', user.key)
@@ -42,6 +59,12 @@ test('POST /v8/user creates a basic permission for the user', async t => {
   const db = await get_db()
 
   const { insertedId } = await db.collection('instances').insertOne({ name: 'test_instance' }) // create instance
+  
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    instance_id: insertedId,
+    value: 'admin'
+  })
 
   const res = await request(app).post('/v8/user')
     .set('API-key', user.key)
