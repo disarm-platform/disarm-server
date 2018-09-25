@@ -120,12 +120,12 @@ const endpoints = [
         path: '/assignment_plan/create',
         callback: assignment_plan.create
     },
-    {
-        permissions:['write:config'],
-        method: POST,
-        path:'/config',
-        callback:config.create
-    },
+    // {
+    //     permissions:['write:config'],
+    //     method: POST,
+    //     path:'/config',
+    //     callback:config.create
+    // },
     {
         permissions:['write:config'],
         method:POST,
@@ -141,27 +141,28 @@ const endpoints = [
     {
         permissions:['*'],
         method:GET,
-        path:'/config/:config_id',
+        path:'/config/:instance_id',
         callback:config.findOne
     },
+    // {
+    //     permissions:['write:config'],
+    //     method: PUT,
+    //     path:'/config',
+    //     callback: config.update
+    // },
+    // {
+    //     permissions:['write:config'],
+    //     method: PUT,
+    //     path:'/config/:config_id',
+    //     callback: config.update
+    // },
+    // {
+    //     permissions:['write:config'],
+    //     method: DELETE,
+    //     path:'/config',
+    //     callback: config.remove
+    // },
     {
-        permissions:['write:config'],
-        method: PUT,
-        path:'/config',
-        callback: config.update
-    },
-    {
-        permissions:['write:config'],
-        method: PUT,
-        path:'/config/:config_id',
-        callback: config.update
-    },
-    {
-        permissions:['write:config'],
-        method: DELETE,
-        path:'/config',
-        callback: config.remove
-    },{
         permissions:['write:config'],
         method: POST,
         path:'/geodata/:instance/:spatial_hierarchy',

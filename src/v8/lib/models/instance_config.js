@@ -5,6 +5,7 @@
  */
 
 const instance_config = {
+  version: 'number', // integer we bump
 
-
+  instance_id: 'MongoID'
 }
