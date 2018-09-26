@@ -8,7 +8,6 @@ const {can} = require('../../lib/helpers/can')
  * @apiParam {string} instance_id The id of the instance 
  * @apiParamExample {json} Request-Example:
  *     {
- *      version: 1,
  *       ...instance_config
  *     }
  */
