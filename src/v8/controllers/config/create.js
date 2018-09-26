@@ -39,7 +39,7 @@ module.exports = async function create(req, res) {
   const new_version = config_with_highest_version ? config_with_highest_version.version + 1 : 1
   await req.db.collection('instance_configs').insertOne({
     version: new_version,
-    instance_id,
+    instance_id: ObjectID(instance_id),
     ...req.body
   })
 

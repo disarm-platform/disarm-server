@@ -165,39 +165,39 @@ const endpoints = [
     {
         permissions:['write:config'],
         method: POST,
-        path:'/geodata/:instance/:spatial_hierarchy',
+        path:'/geodata/:instance_id',
         callback: geodata.create
     },
-    {
-        permissions:['*'],
-        method: GET,
-        path:'/geodata',
-        callback:geodata.findOne
-    },
-    {
-        permissions:['*'],
-        method:GET,
-        path:'/geodata/:instance',
-        callback: geodata.findOne
-    },
-    {
-        permissions:['*'],
-        method: GET,
-        path:'/geodata/:instance/:spatial_hierarchy',
-        callback: geodata.findOne
-    },
-    {
-        permissions:['write:config'],
-        method: PUT,
-        path:'/geodata',
-        callback:geodata.update
-    },
-    {
-        permissions:['write:config'],
-        method: DELETE,
-        path:'/geodata',
-        callback: geodata.remove
-    },
+    // {
+    //     permissions:['*'],
+    //     method: GET,
+    //     path:'/geodata',
+    //     callback:geodata.findOne
+    // },
+    // {
+    //     permissions:['*'],
+    //     method:GET,
+    //     path:'/geodata/:instance',
+    //     callback: geodata.findOne
+    // },
+    // {
+    //     permissions:['*'],
+    //     method: GET,
+    //     path:'/geodata/:instance/:spatial_hierarchy',
+    //     callback: geodata.findOne
+    // },
+    // {
+    //     permissions:['write:config'],
+    //     method: PUT,
+    //     path:'/geodata',
+    //     callback:geodata.update
+    // },
+    // {
+    //     permissions:['write:config'],
+    //     method: DELETE,
+    //     path:'/geodata',
+    //     callback: geodata.remove
+    // },
     {
         method: POST,
         path: '/instance',
