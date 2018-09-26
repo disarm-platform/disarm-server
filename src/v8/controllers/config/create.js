@@ -1,11 +1,11 @@
 const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
 /**
- * @api {post} /config/:instance_id Create instance
+ * @api {post} /config/:instance_id Create instance config
  * @apiName Create Instance Config
  * @apiGroup InstanceConfig
  *
- * @apiParam {string} name The name of the instance
+ * @apiParam {string} instance_id The id of the instance 
  * @apiParamExample {json} Request-Example:
  *     {
  *      version: 1,
