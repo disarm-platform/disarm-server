@@ -160,6 +160,11 @@ const endpoints = [
         path: '/instance/:instance_id',
         callback: instance.findOne
     },
+    {
+        method: DELETE,
+        path: '/instance/:instance_id',
+        callback: instance.remove
+    },
 
     // USERS
     {
