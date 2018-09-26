@@ -1,7 +1,7 @@
 const ObjectID = require('mongodb').ObjectID
-
+const {can} = require('../../lib/helpers/can')
 /**
- * @api {get} /instance/:id Get instance
+ * @api {get} /instance/:instance_id Get instance
  * @apiName Get Instance
  * @apiGroup Instance
  *
@@ -9,19 +9,15 @@ const ObjectID = require('mongodb').ObjectID
  */
 
 module.exports = async function findOne(req, res) {
+  const instance_id = req.params.instance_id
 
-  // TODO: auth, check if user can get instance, i.e. if they have permission
-  const allowed = true
+  const allowed = await can(req.user._id, instance_id, 'basic')
   if (!allowed) {
-    return res.status(403).send()
-  }
-
-  if (!req.param.id) {
-    return res.status(400).send({ error: 'id is required' })
+    return res.status(401).send({ error: 'Not authorized'})
   }
 
   try {
-    const instance = await req.db.collection('instances').findOne({ _id: ObjectID(req.param.id) })
+    const instance = await req.db.collection('instances').findOne({ _id: ObjectID(instance_id) })
     res.send(instance)
   } catch (e) {
     res.status(500).send(e)

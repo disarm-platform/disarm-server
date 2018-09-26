@@ -204,6 +204,11 @@ const endpoints = [
         callback: instance.create
     },
     {
+        method: GET,
+        path: '/instance/:instance_id',
+        callback: instance.findOne
+    },
+    {
         method: POST,
         path: '/user',
         callback: user.create
