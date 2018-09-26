@@ -5,6 +5,12 @@
  */
 
 const geodata = {
+  version: 'number',
+  
+  instance_id: 'MongoID',
 
+  level_name: 'string',
+
+  geojson: '<geojson>'
 
 }
