@@ -36,18 +36,8 @@ const endpoints = [
         path: '/',
         callback: version_meta
     },
-    {
-        permissions: ['*'],
-        method: GET,
-        path: '/refresh_users',
-        callback: Auth.forceUpdateUserList
-    },
-    // {
-    //     permissions: ['*'],
-    //     method: POST,
-    //     path: '/login',
-    //     callback: auth_controller.login
-    // },
+
+    // PLAN
     {
         permissions: ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'],
         method: GET,
@@ -84,6 +74,9 @@ const endpoints = [
         path: '/plan/current',
         callback: plan.current
     },
+
+
+    // RECORD
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
         method: GET,
@@ -108,6 +101,8 @@ const endpoints = [
         path: '/record/create',
         callback: record.create
     },
+
+    // ASSIGNMENT PLAN
     {
         permissions: ['read:irs_tasker'],
         method: GET,
@@ -120,12 +115,8 @@ const endpoints = [
         path: '/assignment_plan/create',
         callback: assignment_plan.create
     },
-    // {
-    //     permissions:['write:config'],
-    //     method: POST,
-    //     path:'/config',
-    //     callback:config.create
-    // },
+
+    // CONFIG
     {
         permissions:['write:config'],
         method:POST,
@@ -135,33 +126,11 @@ const endpoints = [
     {
         permissions:['*'],
         method:GET,
-        path:'/config',
-        callback:config.findOne
-    },
-    {
-        permissions:['*'],
-        method:GET,
         path:'/config/:instance_id',
         callback:config.findOne
     },
-    // {
-    //     permissions:['write:config'],
-    //     method: PUT,
-    //     path:'/config',
-    //     callback: config.update
-    // },
-    // {
-    //     permissions:['write:config'],
-    //     method: PUT,
-    //     path:'/config/:config_id',
-    //     callback: config.update
-    // },
-    // {
-    //     permissions:['write:config'],
-    //     method: DELETE,
-    //     path:'/config',
-    //     callback: config.remove
-    // },
+
+    // GEODATA
     {
         permissions:['write:config'],
         method: POST,
@@ -174,30 +143,8 @@ const endpoints = [
         path:'/geodata/:level_id',
         callback:geodata.findOne
     },
-    // {
-    //     permissions:['*'],
-    //     method:GET,
-    //     path:'/geodata/:instance',
-    //     callback: geodata.findOne
-    // },
-    // {
-    //     permissions:['*'],
-    //     method: GET,
-    //     path:'/geodata/:instance/:spatial_hierarchy',
-    //     callback: geodata.findOne
-    // },
-    // {
-    //     permissions:['write:config'],
-    //     method: PUT,
-    //     path:'/geodata',
-    //     callback:geodata.update
-    // },
-    // {
-    //     permissions:['write:config'],
-    //     method: DELETE,
-    //     path:'/geodata',
-    //     callback: geodata.remove
-    // },
+
+    // INSTANCE
     {
         method: POST,
         path: '/instance',
@@ -208,6 +155,8 @@ const endpoints = [
         path: '/instance/:instance_id',
         callback: instance.findOne
     },
+
+    // USERS
     {
         method: POST,
         path: '/user',
