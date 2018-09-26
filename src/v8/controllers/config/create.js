@@ -1,4 +1,5 @@
 const ObjectID = require('mongodb').ObjectID
+const {can} = require('../../lib/helpers/can')
 /**
  * @api {post} /config/:instance_id Create instance
  * @apiName Create Instance Config
@@ -15,22 +16,26 @@ const ObjectID = require('mongodb').ObjectID
 
 module.exports = async function create(req, res) {
   const instance_id = req.params['instance_id']
-  if (!instance_id) {
-    return res.status(400).send({error: 'instance_id is required'})
-  }
   
   const allowed = await can(req.user._id, instance_id, 'admin')
   if (!allowed) {
     return res.status(401).send({ error: 'Not authorized' })
   }
 
-  const instance = req.db.collection('instances').findOne({_id: ObjectID(instance_id)})
+  const instance = await req.db.collection('instances').findOne({_id: ObjectID(instance_id)})
   if (!instance) {
     return res.status(400).send({ error: 'invalid instance_id' })
   }
-
-  const config_with_highest_version = await req.db.collection('instance_configs').find({ instance_id: ObjectID(instance_id)}).sort({ version: -1 }).limit(1)
   
+
+  const config_with_highest_version = await req.db.collection('instance_configs')
+    .find({ 
+      instance_id: ObjectID(instance_id) 
+    }, {
+      sort: { version: -1 },
+      limit: 1
+    })
+
   // if there is an existing config we bump the version, if not we start at 1
   const new_version = config_with_highest_version ? config_with_highest_version + 1 : 1
 

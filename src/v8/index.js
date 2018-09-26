@@ -129,7 +129,7 @@ const endpoints = [
     {
         permissions:['write:config'],
         method:POST,
-        path:'/config/:config_id',
+        path:'/config/:instance_id',
         callback:config.create
     },
     {
