@@ -168,12 +168,12 @@ const endpoints = [
         path:'/geodata/:instance_id',
         callback: geodata.create
     },
-    // {
-    //     permissions:['*'],
-    //     method: GET,
-    //     path:'/geodata',
-    //     callback:geodata.findOne
-    // },
+    {
+        permissions:['*'],
+        method: GET,
+        path:'/geodata/:level_id',
+        callback:geodata.findOne
+    },
     // {
     //     permissions:['*'],
     //     method:GET,

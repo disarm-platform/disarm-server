@@ -1,18 +1,27 @@
-module.exports = async function findOne(req, res) {
-  const geodata_collection = req.db.collection('geodata');
-  const { instance, spatial_hierarchy } = req.params;
-  try {
-    if (spatial_hierarchy) {
-      const _id = `${instance}/${spatial_hierarchy}`
-      res.send(await geodata_collection.findOne({ _id }))
-    } else if (instance) {
-      const geodatas = await geodata_collection.find({ instance }).toArray()
-      res.send(geodatas.map(e => e.spatial_hierarchy))
-    } else {
-      res.send(await geodata_collection.find({}).toArray())
-    }
+const ObjectID = require('mongodb').ObjectID
+const { can } = require('../../lib/helpers/can')
 
-  } catch (e) {
-    res.status(500).send(e.message)
+/**
+ * @api {get} /geodata/:level_id Create geodata level
+ * @apiName Get Geodata Level
+ * @apiGroup Geodata
+ *
+ * @apiParam {string} level_id The id of the level
+ */
+
+
+module.exports = async function findOne(req, res) {
+  const level_id = req.params['level_id']
+  
+  const level = await req.db.collection('geodata').findOne({_id: ObjectID(level_id)})
+  if (!level) {
+    return res.status(400).send({ error: 'Invalid level_id' })
   }
+
+  const allowed = await can(req.user._id, level.instance_id, 'basic')
+  if (!allowed) {
+    return res.status(401).send({ error: 'Not authorized' })
+  }
+
+  res.send(level)
 }
