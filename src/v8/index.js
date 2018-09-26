@@ -126,7 +126,7 @@ const endpoints = [
     {
         permissions:['*'],
         method:GET,
-        path:'/config/:instance_id',
+        path:'/config/:config_id',
         callback:config.findOne
     },
 
