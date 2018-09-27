@@ -1,6 +1,19 @@
-// const User = require('../../lib/auth')
 const bcrypt = require('bcrypt')
 const uuid = require('uuid/v4')
+
+/**
+ * @api {post} /login Login
+ * @apiName Login
+ * @apiGroup Authentication
+ *
+ * @apiParam {string} username The username for a user 
+ * @apiParam {string} password The password for the user
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       username: 'user_2',
+ *       password: 'super-secret'
+ *     }
+ */
 
 module.exports = async function login(req, res) {
   const {username, password} = req.body
