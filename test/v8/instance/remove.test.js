@@ -15,7 +15,7 @@ test('DELETE /v8/instance/:instance_id returns 401 when not logged in', async t 
   t.is(res.body.error, 'Not logged in')
 })
 
-test('GET /v8/instance/:instance_id returns 401 when not a super-admin user for instance', async t => {
+test('DELETE /v8/instance/:instance_id returns 401 when not a super-admin user for instance', async t => {
   const db = await get_db()
   const user = await create_user()
 
@@ -31,17 +31,12 @@ test('GET /v8/instance/:instance_id returns 401 when not a super-admin user for 
   t.is(res.body.error, 'Not authorized')
 })
 
-test('GET /v8/instance/:instance deletes an instance when requesting it', async t => {
+test('DELETE /v8/instance/:instance deletes an instance when requesting it', async t => {
   const db = await get_db()
-  const user = await create_user()
+  const user = await create_user({deployment_admin: true})
 
   const { insertedId } = await db.collection('instances').insertOne({
     name: 'my test instance'
-  })
-
-  await db.collection('permissions').insertOne({
-    user_id: user._id,
-    value: 'super-admin'
   })
 
   const res = await request(app).delete(`/v8/instance/${insertedId}`)

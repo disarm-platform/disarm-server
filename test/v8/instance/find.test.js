@@ -27,14 +27,9 @@ test('GET /v8/instance returns empty array when user has access to no instances'
 })
 
 test('GET /v8/instance returns all instances when user is super-admin', async t => {
-  const user = await create_user()
+  const user = await create_user({deployment_admin: true})
 
   const db = await get_db()
-
-  await db.collection('permissions').insertOne({
-    user_id: user._id,
-    value: 'super-admin'
-  })
 
   await db.collection('instances').insertOne({
     name: 'instance_1'

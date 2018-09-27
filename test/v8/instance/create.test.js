@@ -31,12 +31,7 @@ test('POST /v8/instance returns 401 when not a super-admin', async t => {
 
 test('POST /v8/instance can create instances', async t => {
   const db = await get_db()
-  const user = await create_user()
-
-  await db.collection('permissions').insertOne({
-    user_id: user._id,
-    value: 'super-admin'
-  })
+  const user = await create_user({deployment_admin: true})
 
   const res = await request(app).post('/v8/instance')
     .set('API-key', user.key)

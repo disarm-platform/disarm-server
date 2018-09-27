@@ -8,12 +8,7 @@ test.afterEach.always('clear db ', async t => {
 
 test('returns true for super-admins', async t => {
   const db = await get_db()
-  const user = await create_user()
-
-  await db.collection('permissions').insertOne({
-    user_id: user._id,
-    value: 'super-admin'
-  })
+  const user = await create_user({deployment_admin: true})
 
   const result = await can(user._id)
 

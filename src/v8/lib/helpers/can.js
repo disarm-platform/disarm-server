@@ -18,13 +18,8 @@ async function can(user_id, instance_id, permission_string) {
     return false
   }
   
-  
-  const super_admin_permission = await db.collection('permissions').findOne({
-    user_id: ObjectID(user_id),
-    value: 'super-admin'
-  })
-  // if user is super admin, return true
-  if (super_admin_permission) {
+  // if they are a deployment_admin, they can do anything
+  if (user.deployment_admin) {
     return true
   } 
 
