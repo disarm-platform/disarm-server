@@ -179,6 +179,16 @@ const endpoints = [
         method: POST,
         path: '/permission',
         callback: permission.create
+    },
+    {
+        method: GET,
+        path: '/permission/:user_id/:instance_id',
+        callback: permission.find
+    },
+    {
+        method: GET,
+        path: '/permission/:user_id',
+        callback: permission.find
     }
 ]
 
