@@ -1,5 +1,5 @@
 const ObjectID = require('mongodb').ObjectID
-const { can } = require('../../lib/helpers/can')
+const { is_user } = require('../../lib/helpers/is_user')
 
 /**
  * @api {get} /config/:config_id Get config
@@ -17,13 +17,7 @@ module.exports = async function findOne(req, res) {
     return res.status(400).send({error: 'invalid config_id'})
   }
 
-  const users_permissions_for_instances = await req.db.collection('permissions').find({
-    user_id: ObjectID(req.user._id)
-  }).toArray()
-
-  const instance_id_strings = users_permissions_for_instances.map(permission => permission.instance_id.toString())
-
-  const allowed = instance_id_strings.includes(config.instance_id.toString())
+  const allowed = await is_user(req.user._id, config.instance_id)
   if (!allowed) {
     return res.status(401).send({ error: 'Not authorized' })
   }
