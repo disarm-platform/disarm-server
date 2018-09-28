@@ -77,7 +77,7 @@ test('POST /v8/permission returns 400 when instance_id is invalid', async t => {
     t.is(res.status, 400)
 })
 
-test.skip('POST /v8/permission returns 400 when user_id is invalid', async t => {
+test('POST /v8/permission returns 400 when user_id is invalid', async t => {
   const db = await get_db()
   const user = await create_user()
 
@@ -95,11 +95,11 @@ test.skip('POST /v8/permission returns 400 when user_id is invalid', async t => 
     .set('API-key', user.key)
     .send({
       instance_id,
-      user_id: 'jahsdkjahsdjaksdjashdkasda',
-      value: 'irs_monitor'
+      user_id: undefined,
+      value: 'read:irs_monitor'
     })
-
-  t.is(res.status, 400)
+  
+    t.is(res.status, 400)
 })
 
 
