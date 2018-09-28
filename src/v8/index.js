@@ -9,6 +9,7 @@ const config = require('./controllers/config')
 const geodata = require('./controllers/geodata')
 const instance = require('./controllers/instance')
 const user = require('./controllers/user')
+const permission = require('./controllers/permission')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
 
@@ -171,6 +172,13 @@ const endpoints = [
         method: POST,
         path: '/user',
         callback: user.create
+    },
+
+    // PERMISSIONS
+    {
+        method: POST,
+        path: '/permission',
+        callback: permission.create
     }
 ]
 

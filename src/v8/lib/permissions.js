@@ -108,5 +108,12 @@ const permissions = [
     applet: "seasons",
     type: "write",
     value: "write:seasons"
+  },
+  {
+    value: 'admin'
   }
 ]
+
+module.exports = {
+  permissions
+}
