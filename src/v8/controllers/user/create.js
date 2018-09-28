@@ -58,13 +58,6 @@ module.exports = async function create(req, res) {
     encrypted_password,
   })
 
-  // create permission for user
-  await req.db.collection('permissions').insertOne({
-    user_id: insertedId,
-    instance_id: instance._id,
-    value: 'basic'
-  })
-
   const user = await req.db.collection('users').findOne({ _id: insertedId})
   res.send(user)
 }

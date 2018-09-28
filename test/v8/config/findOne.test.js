@@ -52,7 +52,7 @@ test('GET /v8/config/:instance_id returns 401 when a user for instance', async t
   await db.collection('permissions').insertOne({
     instance_id,
     user_id: user._id,
-    value: 'basic'
+    value: 'read:irs_monitor'
   })
 
   const res = await request(app).get(`/v8/config/${config_id.toString()}`)

@@ -50,7 +50,7 @@ test('GET /v8/geodata/:level_id returns the level when a user for that instance'
   await db.collection('permissions').insertOne({
     instance_id,
     user_id: user._id,
-    value: 'basic'
+    value: 'read:irs_monitor'
   })
 
   const { insertedId: level_id } = await db.collection('geodata').insertOne({

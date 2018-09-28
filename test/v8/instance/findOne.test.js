@@ -42,7 +42,7 @@ test('GET /v8/instance/:instance returns an instance when requesting it', async 
   await db.collection('permissions').insertOne({
     user_id: user._id,
     instance_id: insertedId,
-    value: 'basic'
+    value: 'read:irs_monitor'
   })
 
   const res = await request(app).get(`/v8/instance/${insertedId}`)

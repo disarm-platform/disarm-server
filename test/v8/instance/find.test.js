@@ -75,7 +75,7 @@ test('GET /v8/instance returns all instance user has access to ', async t => {
   await db.collection('permissions').insertOne({
     user_id: user._id,
     instance_id: instance_id_2,
-    value: 'basic'
+    value: 'read:irs_monitor'
   })
 
   const res = await request(app).get('/v8/instance')

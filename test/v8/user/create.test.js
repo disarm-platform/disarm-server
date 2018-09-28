@@ -52,34 +52,3 @@ test('POST /v8/user creates a  user', async t => {
   const found_user = await db.collection('users').findOne({username: 'test_user'})
   t.is(found_user.username, 'test_user')
 })
-
-
-test('POST /v8/user creates a basic permission for the user', async t => {
-  const user = await create_user()
-  const db = await get_db()
-
-  const { insertedId } = await db.collection('instances').insertOne({ name: 'test_instance' }) // create instance
-  
-  await db.collection('permissions').insertOne({
-    user_id: user._id,
-    instance_id: insertedId,
-    value: 'admin'
-  })
-
-  const res = await request(app).post('/v8/user')
-    .set('API-key', user.key)
-    .send({
-      username: 'test_user',
-      password: 'verysafe123',
-      instance_id: insertedId
-    })
-
-  t.is(res.status, 200)  
-
-  const permission = await db.collection('permissions').findOne({ 
-    user_id: ObjectID(res.body._id), 
-    instance_id: ObjectID(insertedId)
-  })
-
-  t.is(permission.value, 'basic')
-})

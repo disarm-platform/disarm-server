@@ -11,7 +11,13 @@ const {can} = require('../../lib/helpers/can')
 module.exports = async function findOne(req, res) {
   const instance_id = req.params.instance_id
 
-  const allowed = await can(req.user._id, instance_id, 'basic')
+  const users_permissions_for_instances = await req.db.collection('permissions').find({
+    user_id: ObjectID(req.user._id)
+  }).toArray()
+
+  const instance_id_strings = users_permissions_for_instances.map(permission => permission.instance_id.toString())
+
+  const allowed = instance_id_strings.includes(instance_id)
   if (!allowed) {
     return res.status(401).send({ error: 'Not authorized'})
   }

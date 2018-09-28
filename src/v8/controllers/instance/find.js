@@ -11,8 +11,7 @@ module.exports = async function find(req, res) {
   const is_super_admin = await can(req.user._id)
 
   const users_permissions_for_instances = await req.db.collection('permissions').find({
-    user_id: ObjectID(req.user._id),
-    value: {$in: ['basic', 'admin']} // only admin and basic permissions have instance_id attached
+    user_id: ObjectID(req.user._id)
   }).toArray()
 
   const instance_ids_user_has_access_to = users_permissions_for_instances.map(permission => permission.instance_id)

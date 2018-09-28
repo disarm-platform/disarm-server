@@ -18,7 +18,13 @@ module.exports = async function findOne(req, res) {
     return res.status(400).send({ error: 'Invalid level_id' })
   }
 
-  const allowed = await can(req.user._id, level.instance_id, 'basic')
+  const users_permissions_for_instances = await req.db.collection('permissions').find({
+    user_id: ObjectID(req.user._id)
+  }).toArray()
+
+  const instance_id_strings = users_permissions_for_instances.map(permission => permission.instance_id.toString())
+
+  const allowed = instance_id_strings.includes(level.instance_id.toString())
   if (!allowed) {
     return res.status(401).send({ error: 'Not authorized' })
   }
