@@ -10,6 +10,6 @@ const { can } = require('../../lib/helpers/can')
  */
 
 module.exports = async function remove(req, res) {
-
+  res.send()
 }
 
