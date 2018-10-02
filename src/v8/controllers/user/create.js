@@ -21,15 +21,6 @@ const {can} = require('../../lib/helpers/can')
 module.exports = async function create(req, res) {
   const {username, password, instance_id} = req.body
 
-  const allowed = await can(req.user._id, instance_id)
-
-  if (!allowed) {
-    return res.status(401).send({ error: "Not authorised to create users" })
-  }
-
-  // TODO: Check if user is logged in and is allowed to create users, so is super-admin or admin for instance_id
-
-
   if (!username) {
     return res.status(400).send({error: "username is required"})
   }
@@ -42,14 +33,21 @@ module.exports = async function create(req, res) {
     return res.status(400).send({ error: "instance_id is required" })
   }
 
-  const instance = await req.db.collection('instances').findOne({ _id: ObjectID(instance_id)})
+  const allowed = await can(req.user._id, instance_id)
+  if (!allowed) {
+    return res.status(401).send({ error: "Not authorised to create users" })
+  }
 
+  const instance = await req.db.collection('instances').findOne({ _id: ObjectID(instance_id)})
   if (!instance) {
     return res.status(400).send({ error: "Instance with instance_id could not be found" })
   }
 
 
-  // TODO: Ensure no user exists with username
+  const user_with_same_user_name = await req.db.collection('users').findOne({username})
+  if (user_with_same_user_name) {
+    return res.status(400).send({error: 'User with username already exists.'})
+  }
 
   const encrypted_password = await bcrypt.hash(password, 10)
 
