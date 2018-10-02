@@ -175,6 +175,11 @@ const endpoints = [
     },
     {
         method: GET,
+        path: '/user',
+        callback: user.find
+    },
+    {
+        method: GET,
         path: '/user/:user_id',
         callback: user.findOne
     },

@@ -7,9 +7,9 @@ module.exports = async function findOne(req, res) {
     return res.status(400).send()
   }
 
-  const incoming_user_permissions = await req.db.collection('permissions').find({}).toArray()
+  // const incoming_user_permissions = await req.db.collection('permissions').find({}).toArray()
 
-  const logged_in_user_permissions = await req.db.collection('permissions').find({}).toArray()
+  // const logged_in_user_permissions = await req.db.collection('permissions').find({}).toArray()
 
   // TODO: Do some sort of overlap checking, should probably find different approach
 
