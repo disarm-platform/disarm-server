@@ -189,6 +189,11 @@ const endpoints = [
         method: GET,
         path: '/permission/:user_id',
         callback: permission.find
+    },
+    {
+        method: DELETE,
+        path: '/permission/:permission_id',
+        callback: permission.remove
     }
 ]
 

@@ -15,6 +15,16 @@ test('DELETE /v8/permission returns 401 when not logged in', async t => {
   t.is(res.status, 401)
 })
 
+test('DELETE /v8/permission returns 400 when permissions_id is invalid', async t => {
+  // const db = await get_db()
+  const user = await create_user()
+
+  const res = await request(app).delete(`/v8/permission/123123123123`)
+    .set('API-key', user.key)
+
+  t.is(res.status, 400)
+})
+
 test('DELETE /v8/permission returns 401 when not an admin for instance that permission belongs to ', async t => {
   const db = await get_db()
   const user = await create_user()
@@ -89,6 +99,10 @@ test('DELETE /v8/permission/:permission_id remove regular permission from user w
     .set('API-key', user.key)
 
   t.is(res.status, 200)
+
+  const permission = await db.collection('permissions').findOne({ _id: permission_id })
+
+  t.falsy(permission)
 })
 
 test('DELETE /v8/permission/:permission_id remove admin permission for instance when deployment_admin', async t => {
@@ -113,4 +127,8 @@ test('DELETE /v8/permission/:permission_id remove admin permission for instance 
     .set('API-key', user.key)
 
   t.is(res.status, 200)
+
+  const permission = await db.collection('permissions').findOne({_id: permission_id})
+  
+  t.falsy(permission)
 })
