@@ -30,9 +30,9 @@ module.exports = async function create(req, res) {
   }
 
   // if not valid permission
-  const permission = req.body.value
+  const incoming_permission_string = req.body.value
   const permission_strings = permissions.map(p => p.value)
-  if (!permission_strings.includes(permission)) {
+  if (!permission_strings.includes(incoming_permission_string)) {
     return res.status(400).send()
   }
   
@@ -44,10 +44,18 @@ module.exports = async function create(req, res) {
   }
 
   const is_super_admin = await can(req.user._id)
-  if (permission === 'admin' && !is_super_admin) {
+  if (incoming_permission_string === 'admin' && !is_super_admin) {
     return res.status(401).send()
   }
-  
-  res.send()
+
+  const {insertedId: permission_id} = await req.db.collection('permissions').insertOne({
+    instance_id: ObjectID(instance_id),
+    user_id: ObjectID(user_id),
+    value: incoming_permission_string
+  })
+
+  const inserted_permission = await req.db.collection('permissions').findOne({_id: permission_id})
+
+  res.send(inserted_permission)
 }
 

@@ -145,6 +145,14 @@ test('POST /v8/permission returns 200 when everything is valid and is deployment
       user_id: user._id,
       value: 'read:irs_monitor'
     })
-
+  
   t.is(res.status, 200)
+
+  const permission = await db.collection('permissions').findOne({
+    instance_id,
+    user_id: user._id,
+    value: 'read:irs_monitor'
+  })
+
+  t.truthy(permission)
 })
