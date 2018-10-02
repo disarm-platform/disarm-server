@@ -183,6 +183,11 @@ const endpoints = [
         path: '/user/:user_id',
         callback: user.findOne
     },
+    {
+        method: PUT,
+        path: '/user/:user_id',
+        callback: user.update
+    },
 
     // PERMISSIONS
     {
