@@ -173,6 +173,11 @@ const endpoints = [
         path: '/user',
         callback: user.create
     },
+    {
+        method: GET,
+        path: '/user/:user_id',
+        callback: user.findOne
+    },
 
     // PERMISSIONS
     {
