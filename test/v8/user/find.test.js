@@ -18,7 +18,7 @@ test('GET /v8/user?instance_id returns 401 when not logged in', async t => {
 test('GET /v8/user/:user_id returns 400 if no instance_id is in query params', async t => {
   const user = await create_user()
 
-  const res = await request(app).get(`/v8/user`)
+  const res = await request(app).get(`/v8/user?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 400)
