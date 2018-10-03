@@ -24,7 +24,6 @@ module.exports = async function findOne(req, res) {
     return res.status(401).send()
   }
 
-  // TODO: Do some sort of overlap checking, should probably find different approach
 
-  res.send()
+  res.send(found_user)
 }
