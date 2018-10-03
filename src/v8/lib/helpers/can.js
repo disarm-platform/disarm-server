@@ -47,6 +47,20 @@ async function can(user_id, instance_id, permission_string) {
   return !!(found_permission)
 }
 
+async function can_any(user_id, instance_id, permission_strings) {
+  let allowed = false
+
+  for (const permission of permission_strings) {
+    const local_allowed = await can(user_id, instance_id, permission)
+    if (local_allowed) {
+      allowed = true
+    }
+  }
+  
+  return allowed
+}
+
 module.exports = {
-  can
+  can,
+  can_any
 }
