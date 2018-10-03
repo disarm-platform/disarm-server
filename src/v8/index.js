@@ -12,6 +12,7 @@ const user = require('./controllers/user')
 const permission = require('./controllers/permission')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
+const { instance_id } = require('./lib/middleware/instance_id')
 
 const {url_base} = require('./lib/url_helper')
 
@@ -222,7 +223,7 @@ module.exports = function (app, version) {
 
     const make_endpoint = (endpoint) => {
         // Auth.addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
-        app[endpoint.method](v(endpoint.path), is_logged_in, endpoint.callback)
+        app[endpoint.method](v(endpoint.path), is_logged_in, instance_id, endpoint.callback)
     }
 
     // moved the login route outside route definitions, so is_logged_in middleware is not applied.
