@@ -25,5 +25,12 @@ module.exports = async function update(req, res) {
     return res.status(401).send()
   }
 
+  const username = req.body.username
+  if (!username) {
+    return res.status(400).send()
+  }
+
+  await req.db.collection('users').update({_id: user._id}, {$set: {username}})
+
   res.send()
 }
