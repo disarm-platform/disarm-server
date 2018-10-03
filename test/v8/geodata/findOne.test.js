@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('GET /v8/geodata/:level_id returns 401 when not logged in', async t => {
-  const res = await request(app).get('/v8/geodata/level_id')
+  const res = await request(app).get('/v8/geodata/level_id?instance_id=instance')
 
   t.is(res.status, 401)
   t.is(res.body.error, 'Not logged in')
@@ -30,7 +30,7 @@ test('GET /v8/geodata/:level_id returns 401 when not a user for that instance', 
     version: 1
   })
 
-  const res = await request(app).get(`/v8/geodata/${level_id}`)
+  const res = await request(app).get(`/v8/geodata/${level_id}?instance_id=instance`)
     .set('API-key', user.key)
     .send({})
 
@@ -60,7 +60,7 @@ test('GET /v8/geodata/:level_id returns the level when a user for that instance'
     version: 1
   })
 
-  const res = await request(app).get(`/v8/geodata/${level_id}`)
+  const res = await request(app).get(`/v8/geodata/${level_id}?instance_id=instance`)
     .set('API-key', user.key)
     .send({})
 

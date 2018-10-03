@@ -20,7 +20,7 @@ test('POST /v8/user returns 401 when logged in but not an admin for instance', a
   
   const { insertedId: instance_id } = await db.collection('instances').insertOne({ name: 'test_instance' }) // create instance
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post('/v8/user?instance_id=instance')
     .set('API-key', user.key)
     .send({
       username: 'user_2',
@@ -46,7 +46,7 @@ test('POST /v8/user returns 400 whwen creating a  user with a username that alre
 
   await create_user({username: 'my_user_1'})
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post('/v8/user?instance_id=instance')
     .set('API-key', user.key)
     .send({
       username: 'my_user_1',
@@ -70,7 +70,7 @@ test('POST /v8/user creates a  user', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post('/v8/user?instance_id=instance')
     .set('API-key', user.key)
     .send({
       username: 'test_user',

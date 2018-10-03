@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('PUT /v8/user/:user_id returns 401 when not logged in', async t => {
-  const res = await request(app).put('/v8/user/user_id')
+  const res = await request(app).put('/v8/user/user_id?instance_id=instance')
     .send()
 
   t.is(res.status, 401)
@@ -20,7 +20,7 @@ test('PUT /v8/user/:user_id returns 401 when not an admin for user', async t => 
 
   const other_user = await create_user({username: 'test_user'})
 
-  const res = await request(app).put(`/v8/user/${other_user._id}`)
+  const res = await request(app).put(`/v8/user/${other_user._id}?instance_id=instance`)
     .set('API-key', user.key)
     .send()
 
@@ -50,7 +50,7 @@ test('PUT /v8/user/:user_id changes username', async t => {
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).put(`/v8/user/${other_user._id}`)
+  const res = await request(app).put(`/v8/user/${other_user._id}?instance_id=instance`)
     .set('API-key', user.key)
     .send({
       username: 'not_test_user'

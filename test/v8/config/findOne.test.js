@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('GET /v8/config/:config_id returns 401 when not logged in', async t => {
-  const res = await request(app).get('/v8/config/:config_id')
+  const res = await request(app).get('/v8/config/:config_id?instance_id=instance')
     .send({})
 
   t.is(res.status, 401)
@@ -28,7 +28,7 @@ test('GET /v8/config/:instance_id returns 401 when not a user for instance', asy
     instance_id
   })
 
-  const res = await request(app).get(`/v8/config/${config_id.toString()}`)
+  const res = await request(app).get(`/v8/config/${config_id.toString()}?instance_id=instance`)
     .set('API-key', user.key)
     .send({})
 
@@ -55,7 +55,7 @@ test('GET /v8/config/:instance_id returns 401 when a user for instance', async t
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).get(`/v8/config/${config_id.toString()}`)
+  const res = await request(app).get(`/v8/config/${config_id.toString()}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 200)

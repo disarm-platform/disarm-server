@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('GET /v8/user/:user_id returns 401 when not logged in', async t => {
-  const res = await request(app).get('/v8/user/user_id')
+  const res = await request(app).get('/v8/user/user_id?instance_id=instance')
     .send()
 
   t.is(res.status, 401)
@@ -18,7 +18,7 @@ test('GET /v8/user/:user_id returns 401 when not logged in', async t => {
 test('GET /v8/user/:user_id returns 400 if no user exists for user_id', async t => {
   const user = await create_user()
 
-  const res = await request(app).get(`/v8/user/5bb36cb8a9b2bb907d9a4146`)
+  const res = await request(app).get(`/v8/user/5bb36cb8a9b2bb907d9a4146?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 400)
@@ -29,7 +29,7 @@ test('GET /v8/user/:user_id returns 401 if not an admin for an instance user has
   const user = await create_user()
 
   const other_user = await create_user({username: 'test_user_3'})
-  const res = await request(app).get(`/v8/user/${other_user._id}`)
+  const res = await request(app).get(`/v8/user/${other_user._id}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 401)
@@ -59,7 +59,7 @@ test('GET /v8/user/:user_id returns 200 when admin for user', async t => {
   })
 
 
-  const res = await request(app).get(`/v8/user/${other_user._id}`)
+  const res = await request(app).get(`/v8/user/${other_user._id}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 200)

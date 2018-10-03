@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('GET /v8/instance/:instance_id returns 401 when not logged in', async t => {
-  const res = await request(app).get('/v8/instance/id')
+  const res = await request(app).get('/v8/instance/id?instance_id=instance')
     .send({})
 
   t.is(res.status, 401)
@@ -23,7 +23,7 @@ test('GET /v8/instance/:instance_id returns 401 when not a basic user for instan
     name: 'my test intance'
   })
 
-  const res = await request(app).get(`/v8/instance/${insertedId.toString()}`)
+  const res = await request(app).get(`/v8/instance/${insertedId.toString()}?instance_id=instance`)
     .set('API-key', user.key)
     .send({})
 
@@ -45,7 +45,7 @@ test('GET /v8/instance/:instance returns an instance when requesting it', async 
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).get(`/v8/instance/${insertedId}`)
+  const res = await request(app).get(`/v8/instance/${insertedId}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 200)

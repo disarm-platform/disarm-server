@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('POST /v8/geodata/:instance_id returns 401 when not logged in', async t => {
-  const res = await request(app).post('/v8/geodata/id')
+  const res = await request(app).post('/v8/geodata/id?instance_id=instance')
     .send({})
 
   t.is(res.status, 401)
@@ -24,7 +24,7 @@ test('POST /v8/geodata/:instance_id returns 401 when not a admin', async t => {
     name: 'my test intance'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId.toString()}`)
+  const res = await request(app).post(`/v8/geodata/${insertedId.toString()}?instance_id=instance`)
     .set('API-key', user.key)
     .send({})
 
@@ -46,7 +46,7 @@ test('POST /v8/geodata/:instance_id can create new geodata level', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId}`)
+  const res = await request(app).post(`/v8/geodata/${insertedId}?instance_id=instance`)
     .set('API-key', user.key)
     .send({
       level_name: 'villages',
@@ -74,7 +74,7 @@ test('POST /v8/geodata/:instance_id creating a new geodata level and sets versio
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId}`)
+  const res = await request(app).post(`/v8/geodata/${insertedId}?instance_id=instance`)
     .set('API-key', user.key)
     .send({
       level_name: 'villages',
@@ -109,7 +109,7 @@ test('POST /v8/geodata/:instance_id creating a geodata level when one exists bum
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId}`)
+  const res = await request(app).post(`/v8/geodata/${insertedId}?instance_id=instance`)
     .set('API-key', user.key)
     .send({
       level_name: 'consitituencies',

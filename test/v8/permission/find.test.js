@@ -31,7 +31,7 @@ test('GET /v8/permission returns 401 when not an admin for instance that user ha
   })
 
 
-  const res = await request(app).get(`/v8/permission/${other_user._id}/${instance_id}`)
+  const res = await request(app).get(`/v8/permission/${other_user._id}/${instance_id}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 401)
@@ -77,7 +77,7 @@ test('GET /v8/permission returns 200 and only permission for instance', async t 
   })
 
 
-  const res = await request(app).get(`/v8/permission/${other_user._id}/${instance_id_1}`)
+  const res = await request(app).get(`/v8/permission/${other_user._id}/${instance_id_1}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 200)
@@ -104,7 +104,7 @@ test('GET /v8/permission returns 200 for self', async t => {
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).get(`/v8/permission/${user._id}`)
+  const res = await request(app).get(`/v8/permission/${user._id}?instance_id=instance`)
     .set('API-key', user.key)
 
   t.is(res.status, 200)

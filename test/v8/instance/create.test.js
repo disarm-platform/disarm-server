@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('POST /v8/instance returns 401 when not logged in', async t => {
-  const res = await request(app).post('/v8/instance')
+  const res = await request(app).post('/v8/instance?instance_id=instance')
     .send({
       name: 'test instance'
     })
@@ -20,7 +20,7 @@ test('POST /v8/instance returns 401 when not logged in', async t => {
 test('POST /v8/instance returns 401 when not a super-admin', async t => {
   const user = await create_user()
 
-  const res = await request(app).post('/v8/instance')
+  const res = await request(app).post('/v8/instance?instance_id=instance')
     .set('API-key', user.key)
     .send({
       name: 'test instance'
@@ -33,7 +33,7 @@ test('POST /v8/instance can create instances', async t => {
   const db = await get_db()
   const user = await create_user({deployment_admin: true})
 
-  const res = await request(app).post('/v8/instance')
+  const res = await request(app).post('/v8/instance?instance_id=instance')
     .set('API-key', user.key)
     .send({
       name: 'test instance'

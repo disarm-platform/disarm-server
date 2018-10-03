@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('POST /v8/permission returns 401 when not logged in', async t => {
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .send({})
 
   t.is(res.status, 401)
@@ -22,7 +22,7 @@ test('POST /v8/permission returns 401 when not an admin for instance', async t =
     name: 'test_instance_1'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       instance_id,
@@ -41,7 +41,7 @@ test('POST /v8/permission returns 401 when adding admin and not being deployment
     name: 'test_instance_1'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       instance_id,
@@ -66,7 +66,7 @@ test('POST /v8/permission returns 400 when instance_id is invalid', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       user_id: user._id,
@@ -91,7 +91,7 @@ test('POST /v8/permission returns 400 when user_id is invalid', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       instance_id,
@@ -117,7 +117,7 @@ test('POST /v8/permission returns 400 when permission is invalid', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       instance_id,
@@ -138,7 +138,7 @@ test('POST /v8/permission returns 200 when everything is valid and is deployment
     name: 'test_instance_1'
   })
 
-  const res = await request(app).post('/v8/permission')
+  const res = await request(app).post('/v8/permission?instance_id=instance')
     .set('API-key', user.key)
     .send({
       instance_id,
