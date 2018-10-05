@@ -11,7 +11,14 @@ module.exports = async function update (req, res) {
     return res.status(400).send({error: '_id (plan_id) is invalid'})
   }
 
-  const allowed = await can_any(req.user._id, plan.instance_id, ['write:irs_plan', 'write:irs_monitor', 'write:irs_tasker'])
+  const instance_id = req.query.instance_id
+  const instance = await req.db.collection("instances").findOne({_id: ObjectID(instance_id)})
+  if (!instance) {
+    return res.status(400).send({ error: 'instance_id is invalid' })
+  }
+
+
+  const allowed = await can_any(req.user._id, instance_id, ['write:irs_plan', 'write:irs_monitor', 'write:irs_tasker'])
   if (!allowed) {
     return res.status(401).send({error: 'Not authorised'})
   }

@@ -29,6 +29,28 @@ test('GET /v8/plan/:plan_id returns 400 when plan_id is invalid', async t => {
   t.is(res.body.error, '_id (plan_id) is invalid')
 })
 
+test('GET /v8/plan/:plan_id returns 400 when instance_id is missing or invalid', async t => {
+  const db = await get_db()
+  const user = await create_user()
+
+  const { insertedId: instance_id } = await db.collection('instances').insertOne({
+    name: 'instance_1'
+  })
+
+  const { insertedId: plan_id } = await db.collection('plans').insertOne({
+    name: 'my_plan'
+  })
+
+  const res = await request(app).put(`/v8/plan/${plan_id}`)
+    .set('API-key', user.key)
+    .send({
+      name: 'updated_plan'
+    })
+
+  t.is(res.status, 400)
+  t.is(res.body.error, 'instance_id is invalid')
+})
+
 test('GET /v8/plan/:plan_id returns 401 when user doesn\'t have permission', async t => {
   const db = await get_db()
   const user = await create_user()
@@ -38,11 +60,10 @@ test('GET /v8/plan/:plan_id returns 401 when user doesn\'t have permission', asy
   })
 
   const { insertedId: plan_id } = await db.collection('plans').insertOne({
-    instance_id,
     name: 'my_plan'
   })
 
-  const res = await request(app).put(`/v8/plan/${plan_id}`)
+  const res = await request(app).put(`/v8/plan/${plan_id}?instance_id=${instance_id}`)
     .set('API-key', user.key)
     .send({
       name: 'updated_plan'
