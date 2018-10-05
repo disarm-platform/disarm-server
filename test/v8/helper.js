@@ -15,7 +15,7 @@ async function clear_db() {
   await db.collection('permissions').removeMany({})
   await db.collection('instance_configs').removeMany({})
   await db.collection('geodata').removeMany({})
-  // await db.collection('plan').removeMany({})
+  await db.collection('plans').removeMany({})
   // await db.collection('user').removeMany({})
 }
 
