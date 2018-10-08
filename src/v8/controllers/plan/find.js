@@ -1,5 +1,14 @@
 const ObjectID = require('mongodb').ObjectID
 
+/**
+ * @api {get} /instance Find All Plans
+ * @apiName Find All Plans
+ * @apiGroup Plan
+ *
+ * @apiParam {string} instance_id The id of the instance
+ * @apiParam {string} personalised_instance_id The personalised instance id
+ */
+
 module.exports = async function find(req, res) {
   const instance_id = req.query.instance_id
   const instance = await req.db.collection('instances').findOne({_id: ObjectID(instance_id)})

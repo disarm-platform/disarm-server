@@ -3,6 +3,19 @@ const { filter_plan_targets_for_focus_area } = require('../../lib/plan_helper')
 const { decorate_incoming_document } = require('../../lib/decorate_incoming_document')
 const { can_any } = require('../../lib/helpers/can')
 
+/**
+ * @api {put} /plan/:_id Update plan
+ * @apiName Update Plan
+ * @apiGroup Plan
+ * 
+ * @apiParam {string} _id The id of the plan
+ * @apiParam {string} instance_id The id of the instance
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       ...plan
+ *     }
+ */
+
 module.exports = async function update (req, res) {
   let { _id } = req.params
 

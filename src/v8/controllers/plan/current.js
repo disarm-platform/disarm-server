@@ -1,5 +1,11 @@
 const { find_latest_plan } = require('../../lib/plan_helper')
 
+/**
+ * @api {get} /plan/current Get latest plan
+ * @apiName Get Latest Plan
+ * @apiGroup Plan
+ */
+
 module.exports = function current(req, res) {
   find_latest_plan(req)
     .then(docs => {

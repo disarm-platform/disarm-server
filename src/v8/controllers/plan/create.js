@@ -2,6 +2,18 @@ const ObjectID = require('mongodb').ObjectID
 const { filter_plan_targets_for_focus_area } = require('../../lib/plan_helper')
 const { decorate_incoming_document } = require('../../lib/decorate_incoming_document')
 
+/**
+ * @api {post} /plan/create Create plan
+ * @apiName Create Plan
+ * @apiGroup Plan
+ *
+ * @apiParam {string} instance_id The id of the instance
+ * @apiParamExample {json} Request-Example:
+ *     {
+ *       ...plan
+ *     }
+ */
+
 module.exports = async function create (req, res) {
   const instance_id = req.query.instance_id
   const instance = await req.db.collection('instances').findOne({ _id: ObjectID(instance_id)})
