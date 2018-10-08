@@ -16,11 +16,41 @@ test('DELETE /v8/plan/:plan_id returns 401 when not logged in', async t => {
   t.is(res.status, 401)
 })
 
+test('DELETE /v8/plan/:plan_id returns 401 if user does not have permission', async t => {
+  const db = await get_db()
+  const user = await create_user()
+
+  const { insertedId: instance_id } = await db.collection('instances').insertOne({
+    name: 'my instance 1'
+  })
+
+  const { insertedId: plan_id } = await db.collection('plans').insertOne({
+    name: 'my_plan',
+    instance_id
+  })
+
+  const res = await request(app).delete(`/v8/plan/${plan_id}`)
+    .set('API-key', user.key)
+
+  t.is(res.status, 401)
+})
+
 test('DELETE /v8/plan/:plan_id returns 200 and deletes plan', async t => {
   const db = await get_db()
   const user = await create_user()
 
+  const { insertedId: instance_id } = await db.collection('instances').insertOne({
+    name: 'my instance 1'
+  })
+
+  await db.collection('permissions').insertOne({
+    instance_id,
+    user_id: user._id,
+    value: 'write:irs_plan'
+  })
+
   const { insertedId: plan_id } = await db.collection('plans').insertOne({
+    instance_id,
     name: 'my_plan'
   })
 
