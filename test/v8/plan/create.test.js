@@ -28,12 +28,35 @@ test('POST /v8/plan/:plan_id returns 400 when instance_id is missing', async t =
   t.is(res.status, 400)
 })
 
+test('POST /v8/plan/:plan_id returns 401 when user does not have permission', async t => {
+  const db = await get_db()
+  const user = await create_user()
+
+  const { insertedId: instance_id } = await db.collection('instances').insertOne({
+    name: 'my instance here'
+  })
+
+  const res = await request(app).post(`/v8/plan/create?instance_id=${instance_id}`)
+    .set('API-key', user.key)
+    .send({
+      name: 'my_plan'
+    })
+
+  t.is(res.status, 401)
+})
+
 test('POST /v8/plan/:plan_id returns 200', async t => {
   const db = await get_db()
   const user = await create_user()
 
   const {insertedId: instance_id} = await db.collection('instances').insertOne({
     name: 'my instance here'
+  })
+
+  await db.collection('permissions').insertOne({
+    user_id: user._id,
+    instance_id,
+    value: 'write:irs_plan'
   })
 
   const res = await request(app).post(`/v8/plan/create?instance_id=${instance_id}`)
