@@ -9,14 +9,14 @@ test.afterEach.always('clear db ', async t => {
 })
 
 
-test('POST /v8/plan/:plan_id returns 401 when not logged in', async t => {
+test('POST /v8/plan/create returns 401 when not logged in', async t => {
   const res = await request(app).post('/v8/plan/create')
     .send({})
 
   t.is(res.status, 401)
 })
 
-test('POST /v8/plan/:plan_id returns 400 when instance_id is missing', async t => {
+test('POST /v8/plan/create returns 400 when instance_id is missing', async t => {
   const user = await create_user()
 
   const res = await request(app).post(`/v8/plan/create`)
