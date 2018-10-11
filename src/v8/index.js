@@ -118,30 +118,30 @@ const endpoints = [
 
     // CONFIG
     {
-        permissions:['write:config'],
-        method:POST,
-        path:'/config/:instance_id',
-        callback:config.create
+        permissions: ['write:config'],
+        method: POST,
+        path: '/config/:instance_id',
+        callback: config.create
     },
     {
-        permissions:['*'],
-        method:GET,
-        path:'/config/:config_id',
-        callback:config.findOne
+        permissions: ['*'],
+        method: GET,
+        path: '/config/:config_id',
+        callback: config.findOne
     },
 
     // GEODATA
     {
-        permissions:['write:config'],
+        permissions: ['write:config'],
         method: POST,
-        path:'/geodata/:instance_id',
+        path: '/geodata/:instance_id',
         callback: geodata.create
     },
     {
-        permissions:['*'],
+        permissions: ['*'],
         method: GET,
-        path:'/geodata/:level_id',
-        callback:geodata.findOne
+        path: '/geodata/:level_id',
+        callback: geodata.findOne
     },
 
     // INSTANCE
@@ -164,6 +164,12 @@ const endpoints = [
         method: DELETE,
         path: '/instance/:instance_id',
         callback: instance.remove
+    },
+
+    {
+        method: GET,
+        path: '/instance/:instance_id/published_instanceconfigs',
+        callback: instance.populate
     },
 
     // USERS
