@@ -4,7 +4,7 @@ const { decorate_incoming_document } = require('../../lib/decorate_incoming_docu
 
 
 module.exports = async function create(req, res) {
-  const assignment_plan = req.db.collection('assignment_plan')
+  const assignment_plan = req.db.collection('assignment_plans')
   let incoming_assignment_plan = decorate_incoming_document({ doc: req.body, req })
 
     const instance_id = req.query.instance_id

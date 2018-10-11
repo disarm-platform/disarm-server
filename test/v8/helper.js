@@ -17,7 +17,9 @@ async function clear_db() {
     await db.collection('instance_configs').removeMany({})
     await db.collection('geodata').removeMany({})
     await db.collection('plans').removeMany({})
+    await db.collection('assignment_plans').removeMany({})
     // await db.collection('user').removeMany({})
+    //db.dropDatabase()
 }
 
 async function create_user(user) {

@@ -8,14 +8,14 @@ test.afterEach.always('clear db ', async t => {
 })
 
 
-test('GET /v8/assignment_plan/:assignment_plan_id returns 401 when not logged in', async t => {
-    const res = await request(app).get('/v8/assignment_plan/detail/assignment_plan_id')
+test('GET /v8/assignment_plan/current returns 401 when not logged in', async t => {
+    const res = await request(app).get('/v8/assignment_plan/current')
         .send({})
 
     t.is(res.status, 401)
 })
 
-test('GET /v8/assignment_plan/:assignment_plan_id returns 401 when user doesn\'t have permission', async t => {
+test('GET /v8/assignment_plan/current returns 401 when user doesn\'t have permission', async t => {
     const db = await get_db()
     const user = await create_user()
 
@@ -28,13 +28,13 @@ test('GET /v8/assignment_plan/:assignment_plan_id returns 401 when user doesn\'t
         name: 'my_assignment_plan'
     })
 
-    const res = await request(app).get(`/v8/assignment_plan/detail/${assignment_plan_id}`)
+    const res = await request(app).get(`/v8/assignment_plan/current`)
         .set('API-key', user.key)
 
-    t.is(res.status, 401)
+    t.is(res.status, 400)
 })
 
-test('GET /v8/assignment_plan/:assignment_plan_id returns 200 when user has permission', async t => {
+test('GET /v8/assignment_plan/current returns 200 when user has permission', async t => {
     const db = await get_db()
     const user = await create_user()
 
@@ -53,7 +53,7 @@ test('GET /v8/assignment_plan/:assignment_plan_id returns 200 when user has perm
         value: 'read:irs_assignment_plan'
     })
 
-    const res = await request(app).get(`/v8/assignment_plan/detail/${assignment_plan_id}`)
+    const res = await request(app).get(`/v8/assignment_plan/current?instance_id=${instance_id}`)
         .set('API-key', user.key)
 
     t.is(res.status, 200)

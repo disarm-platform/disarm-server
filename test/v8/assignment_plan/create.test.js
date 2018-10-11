@@ -67,7 +67,6 @@ test('POST /v8/assignment_plan/:assignment_plan_id returns 200', async t => {
 
     t.is(res.status, 200)
 
-
     const assignment_plan_count = await db.collection('assignment_plans').count({})
     t.is(assignment_plan_count, 1)
 
