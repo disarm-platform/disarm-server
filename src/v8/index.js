@@ -10,6 +10,7 @@ const geodata = require('./controllers/geodata')
 const instance = require('./controllers/instance')
 const user = require('./controllers/user')
 const permission = require('./controllers/permission')
+const download_records = require('./controllers/download_records')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
 
@@ -214,6 +215,13 @@ const endpoints = [
         method: DELETE,
         path: '/permission/:permission_id',
         callback: permission.remove
+    },
+
+    //Download recoerds enpoint
+    {
+        method:GET,
+        path:'/download_records',
+        callback:download_records.find
     }
 ]
 

@@ -20,6 +20,7 @@ module.exports = async function create(req, res) {
   }
 
   if (!req.body.name) {
+    
     return res.status(400).send({error: 'name is required'})
   }
 
