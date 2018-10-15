@@ -11,6 +11,7 @@ const maas = require('./maas')
 const config = require('./routes/config')
 const geodata = require('./routes/geodata')
 const seasons = require('./routes/seasons')
+const download_records = require('./routes/download_records')
 
 const {url_base} = require('./lib/url_helper')
 
