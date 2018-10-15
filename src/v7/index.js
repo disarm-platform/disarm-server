@@ -11,6 +11,7 @@ const maas = require('./maas')
 const config = require('./routes/config')
 const geodata = require('./routes/geodata')
 const seasons = require('./routes/seasons')
+const download_records = require('./routes/download_records')
 
 const {url_base} = require('./lib/url_helper')
 
@@ -274,6 +275,12 @@ const endpoints = [
         method:DELETE,
         path:'/geodata',
         callback:geodata[DELETE]
+    },
+    {
+        permissions:['read:irs_record_point'],
+        method:GET,
+        path:'/download_records',
+        callback:download_records
     }
 ]
 
