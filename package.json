@@ -27,6 +27,7 @@
     "express": "^4.14.1",
     "express-mongo-db": "^2.0.3",
     "get-csv": "^3.0.3",
+    "json2csv": "^4.2.1",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
     "ml-kmeans": "^3.0.0",
