@@ -20,7 +20,7 @@ if (!process.env.MONGODB_URI) {
 // Need at least one source of users CSV
 if (!process.env.SHEETS_URL && !process.env.SHEETS_PATH) {
     console.log(
-        '\nERROR: Missing `SHEETS_URL`.\nNeed to set SHEETS_URL as an environment variable.\nSomething like `set -x SHEETS_URL "https://docs.google.com/spreadsheets/d/...."`\n'
+        '\nERROR: Missing `SHEETS_URL (or SHEETS_PATH)`.\nNeed to set SHEETS_URL as an environment variable.\nSomething like `set -x SHEETS_URL "https://docs.google.com/spreadsheets/d/...."`\n'
     )
     process.exit()
 }
@@ -41,22 +41,8 @@ MongoClient.connect(process.env.MONGODB_URI)
 
 
 function launch() {
-
     const api = require('./api').app
-
-
     const port = process.env.PORT || 3000
-
-  /*  const p_api = new ParseServer({
-        databaseURI: 'mongodb://localhost:27017/dev', // Connection string for your MongoDB database
-        cloud: './cloud/main.js', // Absolute path to your Cloud Code
-        appId: 'myAppId',
-        masterKey: 'myMasterKey', // Keep this key secret!
-        fileKey: 'optionalFileKey',
-        serverURL: `http://localhost:${port}/parse` // Don't forget to change to https if needed
-    });
-
-    api.use('/parse',p_api)*/
 
     api.listen(port, () => {
         console.log('[DOUMA API] Listening on port ' + port)
