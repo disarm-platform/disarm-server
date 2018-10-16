@@ -21,7 +21,13 @@ module.exports = async (req, res) => {
             .sort({recorded_at: -1})
             .toArray()
         console.log('records',records)
-        const csv_records = process(records)
+        let csv_records
+        if (records.length > 0) {
+            csv_records = process(records)
+        } else {
+            csv_records = ''
+        }
+            
         var readStream = new stream.PassThrough();
         readStream.end(csv_records);
         res.set('Content-Type','Application/csv')
@@ -29,6 +35,7 @@ module.exports = async (req, res) => {
         readStream.pipe(res);
 
     } catch (e) {
+        console.log('broken here');
         res.status(400).send('Error');
     }
 
