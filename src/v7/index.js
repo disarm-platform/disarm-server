@@ -277,7 +277,7 @@ const endpoints = [
         callback:geodata[DELETE]
     },
     {
-        permissions:['read:irs_record_point'],
+        permissions:['*'],
         method:GET,
         path:'/download_records',
         callback:download_records
