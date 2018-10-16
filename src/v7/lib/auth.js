@@ -147,7 +147,7 @@ function findByUsernamePassword(username, password) {
  * will have access to user object in the request.
  */
 function authMiddleware(req, res, next) {
-    const openPaths = ['/login', '/', '/refresh_users']
+    const openPaths = ['/login', '/', '/refresh_users','/download_records']
     if (openPaths.includes(req.path)) return next()
 
     //TODO : Implement a generic solution for enabling arbitrary paths for specific HTTP verbs
