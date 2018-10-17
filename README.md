@@ -51,6 +51,12 @@ Alternatively use `SHEETS_PATH` environment variable to point to CSV file in you
 npm run start
 ```
 
+### Example bringing it all together for simple local run
+
+```
+SECRET=secret MONGODB_URI=mongodb://localhost:27017 SHEETS_PATH=users.csv PORT=3001 npm start
+```
+
 
 ## Managing users
 
