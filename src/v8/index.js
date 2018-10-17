@@ -215,13 +215,6 @@ const endpoints = [
         method: DELETE,
         path: '/permission/:permission_id',
         callback: permission.remove
-    },
-
-    //Download recoerds enpoint
-    {
-        method:GET,
-        path:'/download_records',
-        callback:download_records.find
     }
 ]
 
@@ -240,6 +233,8 @@ module.exports = function (app, version) {
 
     // moved the login route outside route definitions, so is_logged_in middleware is not applied.
     app.post(v('/login'), auth_controller.login)
+
+    app.get(v('/download_records'),download_records.find)
 
     // Not sure we can still use this middleware, 
     // we will probably also need to remove the permissions from the endpoint definitions above. 
