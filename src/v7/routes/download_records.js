@@ -20,9 +20,9 @@ module.exports = async (req, res) => {
             .find({country, personalised_instance_id})
             .sort({recorded_at: -1})
             .toArray()
-        console.log('records',records)
+
         const csv_records = process(records)
-        var readStream = new stream.PassThrough();
+        const readStream = new stream.PassThrough();
         readStream.end(csv_records);
         res.set('Content-Type','Application/csv')
         res.set('Content-disposition', 'attachment; filename=records.csv');
