@@ -35,8 +35,7 @@ MongoClient.connect(process.env.MONGODB_URI)
         })
         //Initialize deployment user
         if(process.env.DEPLOYMENT_USER&&process.env.DEPLOYMENT_PASSWORD){
-            let user = await db.collection('user').findOne();
-            console.log(user)
+            let user = await db.collection('users').findOne({});
             if(!user){
                 const bcrypt = require('bcrypt')
                 const encrypted_password = await bcrypt.hash(process.env.DEPLOYMENT_PASSWORD, 10)
