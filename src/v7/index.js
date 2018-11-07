@@ -20,8 +20,8 @@ Auth.updateUserList()
 let _version = '';
 
 const version_meta = (req, res) => res.send({
-    DOUMA_API: process.env.SOURCE_VERSION || 'DEV',
-    version: _version
+  DOUMA_API: process.env.SOURCE_VERSION || 'DEV',
+  version: _version
 })
 
 const POST = 'post'
@@ -285,22 +285,24 @@ const endpoints = [
 ]
 
 module.exports = function (app, version) {
-    const version_prefix = '/' + version
-    _version = version
+  const version_prefix = '/' + version
+  _version = version
 
-    function v(url) {
-        return version_prefix + url
-    }
+  function v(url) {
+    return version_prefix + url
+  }
 
-    const make_endpoint = (endpoint) => {
-        addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
-        app[endpoint.method](v(endpoint.path), endpoint.callback)
-    }
+  const make_endpoint = (endpoint) => {
+    addPermission(endpoint.method, url_base(endpoint.path), endpoint.permissions)
+    Auth.addAllowedOrigins(endpoint.method, url_base(endpoint.path), endpoint.allowed_origins)
+    app[endpoint.method](v(endpoint.path), endpoint.callback)
+  }
 
-    const version_path_regex = new RegExp(version_prefix)
-    app.use(version_path_regex, Auth.authMiddleware)
-    app.use(version_path_regex, Auth.endpointPermissionsMiddleware)
-    app.use(version_path_regex, Auth.optionsMiddleware)
+  const version_path_regex = new RegExp(version_prefix)
+  app.use(version_path_regex, Auth.authMiddleware)
+  app.use(version_path_regex, Auth.endpointPermissionsMiddleware)
+  app.use(version_path_regex, Auth.optionsMiddleware)
+  app.use(version_path_regex, Auth.allowedOriginsMiddleware)
 
-    endpoints.forEach(make_endpoint)
+  endpoints.forEach(make_endpoint)
 }
