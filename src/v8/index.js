@@ -213,7 +213,7 @@ const endpoints = [
     },
     {
         method: DELETE,
-        path: '/permission/:permission_id',
+        path: '/permission',
         callback: permission.remove
     }
 ]

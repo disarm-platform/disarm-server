@@ -33,7 +33,7 @@ MongoClient.connect(process.env.MONGODB_URI)
         }).catch((e) => {
             console.log('failed in created index', e)
         })
-        //Initialize deployment user
+        //Initialize depwloyment user
         if(process.env.DEPLOYMENT_USER&&process.env.DEPLOYMENT_PASSWORD){
             let user = await db.collection('users').findOne({});
             if(!user){
