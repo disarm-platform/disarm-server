@@ -48,6 +48,8 @@ module.exports = async function create(req, res) {
     return res.status(401).send()
   }
 
+  //TODO: Avoid duplicating permissions
+
   const {insertedId: permission_id} = await req.db.collection('permissions').insertOne({
     instance_id: ObjectID(instance_id),
     user_id: ObjectID(user_id),

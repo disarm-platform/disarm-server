@@ -10,12 +10,8 @@ const { can } = require('../../lib/helpers/can')
  */
 
 module.exports = async function remove(req, res) {
-  const permission_id = req.params.permission_id
 
-  const permission = await req.db.collection('permissions').findOne({_id: ObjectID(permission_id)})
-  if (!permission) {
-    return res.status(400).send()
-  }
+  const {user_id, instance_id, value} = req.body
 
   const is_admin = await can(req.user._id, permission.instance_id)
   if (!is_admin) {
@@ -28,7 +24,12 @@ module.exports = async function remove(req, res) {
     return res.status(401).send()
   }
 
-  await req.db.collection('permissions').remove({_id: ObjectID(permission_id)})
+
+
+  await req.db.collection('permissions').remove({
+      user_id:ObjectID(user_id),
+      instance_id:ObjectID(instance_id),
+      vallue})
 
   res.send()
 }

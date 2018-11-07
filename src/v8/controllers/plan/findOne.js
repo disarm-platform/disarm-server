@@ -1,21 +1,26 @@
 const ObjectID = require('mongodb').ObjectID
+const { can_any } = require('../../lib/helpers/can')
 
-module.exports = async function findOne (req, res) {
-  try {
-    const plan_collection = req.db.collection('plans')
-    const plan_id = req.params.plan_id
-    plan_collection
-      .findOne({ _id: ObjectID(plan_id) }, (error, doc) => {
-        if (error) {
-          cosole.log('Error', error)
-          res.status(500).send('Internal Server Error')
-        } else {
-          console.log('Doc', doc)
-          res.send(doc)
-        }
-      })
-  } catch (e) {
-    console.log('Internal error', e)
-    res.status(500).send('Internal Server Error')
+/**
+ * @api {get} /plan/detail/:plan_id Get plan
+ * @apiName Get Plan
+ * @apiGroup Plan
+ *
+ * @apiParam {string} plan_id The id of the plan
+ */
+
+module.exports = async function findOne(req, res) {
+  const plan_id = req.params.plan_id
+  const plan = await req.db.collection('plans').findOne({ _id: ObjectID(plan_id) })
+
+  if (!plan) {
+    return res.status(400).send()
   }
+
+  const allowed = await can_any(req.user._id, plan.instance_id, ['read:irs_plan', 'read:irs_monitor', 'read:irs_tasker'])
+  if (!allowed) {
+    return res.status(401).send()
+  }
+  
+  res.send(plan)
 }

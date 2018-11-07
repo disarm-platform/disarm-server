@@ -8,7 +8,7 @@
     "unit": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma_test SHEETS_PATH=test.csv SECRET=goldengoose ava --serial",
     "unit-cov": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma_test SHEETS_PATH=test.csv SECRET=goldengoose nyc ava --verbose",
     "unit-watch": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma_test SHEETS_PATH=test.csv SECRET=goldengoose ava --watch --serial",
-    "dev": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma SHEETS_PATH=test.csv SECRET=goldengoose  nodemon src/server.js './src/*.js'",
+    "dev": "env DEPLOYMENT_USER=admin DEPLOYMENT_PASSWORD=complex NODE_ENV=development MONGODB_URI=mongodb://localhost/douma SHEETS_PATH=test.csv SECRET=goldengoose  nodemon src/server.js './src/*.js'",
     "build_deploy_prod": "git push heroku master; git push origin master",
     "build_deploy_stage": "git push heroku-stage master; git push origin master",
     "deploy_all": "npm run build_deploy_stage; npm run build_deploy_prod"
@@ -27,6 +27,7 @@
     "express": "^4.14.1",
     "express-mongo-db": "^2.0.3",
     "get-csv": "^3.0.3",
+    "json2csv": "^4.2.1",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
     "ml-kmeans": "^3.0.0",

@@ -10,6 +10,7 @@ const geodata = require('./controllers/geodata')
 const instance = require('./controllers/instance')
 const user = require('./controllers/user')
 const permission = require('./controllers/permission')
+const download_records = require('./controllers/download_records')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
 const { instance_id } = require('./lib/middleware/instance_id')
@@ -80,7 +81,6 @@ const endpoints = [
 
     // RECORD
     {
-        permissions: ['read:irs_record_point', 'read:irs_monitor'],
         method: GET,
         path: '/record/all',
         callback: record.find
@@ -93,7 +93,7 @@ const endpoints = [
     },
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
-        method: POST,
+        method: GET,
         path: '/record/updates',
         callback: record.get_updates
     },
@@ -120,30 +120,30 @@ const endpoints = [
 
     // CONFIG
     {
-        permissions:['write:config'],
-        method:POST,
-        path:'/config/:instance_id',
-        callback:config.create
+        permissions: ['write:config'],
+        method: POST,
+        path: '/config/:instance_id',
+        callback: config.create
     },
     {
-        permissions:['*'],
-        method:GET,
-        path:'/config/:config_id',
-        callback:config.findOne
+        permissions: ['*'],
+        method: GET,
+        path: '/config/:config_id',
+        callback: config.findOne
     },
 
     // GEODATA
     {
-        permissions:['write:config'],
+        permissions: ['write:config'],
         method: POST,
-        path:'/geodata/:instance_id',
+        path: '/geodata/:instance_id',
         callback: geodata.create
     },
     {
-        permissions:['*'],
+        permissions: ['*'],
         method: GET,
-        path:'/geodata/:level_id',
-        callback:geodata.findOne
+        path: '/geodata/:level_id',
+        callback: geodata.findOne
     },
 
     // INSTANCE
@@ -166,6 +166,12 @@ const endpoints = [
         method: DELETE,
         path: '/instance/:instance_id',
         callback: instance.remove
+    },
+
+    {
+        method: GET,
+        path: '/instance/:instance_id/published_instanceconfigs',
+        callback: instance.populate
     },
 
     // USERS
@@ -208,7 +214,7 @@ const endpoints = [
     },
     {
         method: DELETE,
-        path: '/permission/:permission_id',
+        path: '/permission',
         callback: permission.remove
     }
 ]
@@ -228,6 +234,8 @@ module.exports = function (app, version) {
 
     // moved the login route outside route definitions, so is_logged_in middleware is not applied.
     app.post(v('/login'), auth_controller.login)
+
+    app.get(v('/download_records'),download_records.find)
 
     // Not sure we can still use this middleware, 
     // we will probably also need to remove the permissions from the endpoint definitions above. 

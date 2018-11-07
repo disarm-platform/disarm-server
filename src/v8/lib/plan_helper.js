@@ -1,23 +1,21 @@
 const inside = require('@turf/inside')
 const centroid = require('@turf/centroid')
 const {has} = require('lodash')
+const ObjectID = require('mongodb').ObjectID
 
 const {get_geodata, get_instance_config} = require('./remote_data_helper')
 const {get_next_level_up_from_planning_level, get_planning_level_id_field, get_planning_level_name} = require('./spatial_hierarchy_helper')
 
 const find_latest_plan = async (req) => {
-  const plans = req.db.collection('plans')
-  const country = req.country
-  const personalised_instance_id = req.personalised_instance_id
-
-  console.log('Updating Has no current plan')
-
-  let _plans = await plans
-      .find({country, personalised_instance_id})
-      .sort({updated_at: -1})
-      .limit(1)
-      .toArray()
-  return _plans[0]
+  const instance_id = req.query.instance_id
+  const personalised_instance_id = req.query.personalised_instance_id
+  
+  const plans = await req.db.collection('plans')
+    .find({ instance_id: ObjectID(instance_id), personalised_instance_id})
+    .sort({updated_at: -1})
+    .limit(1)
+    .toArray()
+  return plans[0]
 }
 
 /**
