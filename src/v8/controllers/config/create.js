@@ -38,7 +38,7 @@ module.exports = async function create(req, res) {
     delete req.body._id
 
     console.log(req.body)
-  
+
   // if there is an existing config we bump the version, if not we start at 1
   const new_version = config_with_highest_version ? config_with_highest_version.version + 1 : 1
   const result = await req.db.collection('instance_configs').insertOne({
@@ -47,7 +47,7 @@ module.exports = async function create(req, res) {
     ...req.body
   })
 
-    //console.log(result)
+
 
   res.send({status: 'success'})
 }

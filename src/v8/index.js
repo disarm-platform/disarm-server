@@ -186,6 +186,11 @@ const endpoints = [
     },
     {
         method: GET,
+        path: '/all_users',
+        callback: user.findAll
+    },
+    {
+        method: GET,
         path: '/user/:user_id',
         callback: user.findOne
     },
@@ -205,6 +210,11 @@ const endpoints = [
         method: GET,
         path: '/permission/:user_id/:instance_id',
         callback: permission.find
+    },
+    {
+        method:GET,
+        path:'/permission',
+        callback:permission.findAll
     },
     {
         method: GET,
