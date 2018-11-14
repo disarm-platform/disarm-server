@@ -141,7 +141,7 @@ const endpoints = [
     {
         permissions: ['*'],
         method: GET,
-        path: '/geodata/:level_id',
+        path: '/geodata/:level_name',
         callback: geodata.findOne
     },
 
