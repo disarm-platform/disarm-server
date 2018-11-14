@@ -57,6 +57,10 @@ npm run start
 SECRET=secret MONGODB_URI=mongodb://localhost:27017 SHEETS_PATH=users.csv PORT=3001 npm start
 ```
 
+### Optional bootstrap data
+
+Unzip `docs/demo-app-mongodump.zip` file and run `mongorestore dump/`. This will create a database called `douma` on the localhost MongoDB. Useful for quick setup of a new server without needing config-editor.
+
 
 ## Managing users
 
