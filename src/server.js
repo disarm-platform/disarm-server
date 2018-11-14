@@ -28,10 +28,10 @@ if (!process.env.SHEETS_URL && !process.env.SHEETS_PATH) {
 MongoClient.connect(process.env.MONGODB_URI)
     .then(async db => {
         db.collection('records').ensureIndex({'id': 1}, {unique: true, background: true}).then(() => {
-            console.log('created index')
+            console.log(`[DOUMA API] Connected to MongoDB on ${process.env.MONGODB_URI}`)
             launch()
         }).catch((e) => {
-            console.log('failed in created index', e)
+            console.log('[DOUMA API] failed in created index', e)
         })
         //Initialize depwloyment user
         if(process.env.DEPLOYMENT_USER&&process.env.DEPLOYMENT_PASSWORD){
@@ -49,7 +49,7 @@ MongoClient.connect(process.env.MONGODB_URI)
         }
     })
     .catch(e => {
-        console.log('Failed to connect to mongo and create index', e)
+        console.log('[DOUMA API] Failed to connect to mongo and create index', e)
     })
 
 
