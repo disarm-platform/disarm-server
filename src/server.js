@@ -41,6 +41,7 @@ MongoClient.connect(process.env.MONGODB_URI)
                 const encrypted_password = await bcrypt.hash(process.env.DEPLOYMENT_PASSWORD, 10)
                 let deployment_user = await db.collection('users').insertOne({
                     username:process.env.DEPLOYMENT_USER,
+                    name:'Admin',
                     encrypted_password,
                     deployment_admin: true
                 })
