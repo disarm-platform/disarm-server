@@ -11,7 +11,8 @@ module.exports = async (req, res) => {
     const download_key = req.query.download_key || req.get('API-Key');
     console.log(download_key)
 
-    const instance_id = ObjectID(req.query.instance_id)
+    
+    const instance_id = req.query.instance_id
     const instance = await req.db.collection('instances').findOne({_id: ObjectID(instance_id)})
 
     if(!download_key){
