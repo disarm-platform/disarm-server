@@ -92,7 +92,7 @@ const endpoints = [
     },
     {
         permissions: ['read:irs_record_point', 'read:irs_monitor'],
-        method: GET,
+        method: POST,
         path: '/record/updates',
         callback: record.get_updates
     },
