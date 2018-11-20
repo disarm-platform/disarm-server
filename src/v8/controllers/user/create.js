@@ -58,4 +58,5 @@ module.exports = async function create(req, res) {
 
   const user = await req.db.collection('users').findOne({ _id: insertedId})
   res.send(user)
+  req.db.collection('sessions').deleteMany({user_id:ObjectID(user._id)});
 }

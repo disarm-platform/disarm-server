@@ -21,4 +21,5 @@ module.exports = async function remove(req, res) {
   // TODO: Remove all the permissions from the user
 
   res.send({status: 'successfully removed user'})
+  req.db.collection('sessions').deleteMany({user_id:ObjectID(user_id_to_remove)});
 }

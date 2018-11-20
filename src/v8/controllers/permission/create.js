@@ -59,5 +59,8 @@ module.exports = async function create(req, res) {
   const inserted_permission = await req.db.collection('permissions').findOne({_id: permission_id})
 
   res.send(inserted_permission)
+
+  const existing_sessions = await  req.db.collection('sessions').deleteMany({user_id:ObjectID(user_id)});
+
 }
 

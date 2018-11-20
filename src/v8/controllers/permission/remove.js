@@ -34,5 +34,6 @@ module.exports = async function remove(req, res) {
       value})
 
   res.send()
+  req.db.collection('sessions').deleteMany({user_id:ObjectID(user_id)});
 }
 

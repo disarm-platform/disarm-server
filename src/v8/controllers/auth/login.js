@@ -34,7 +34,7 @@ module.exports = async function login(req, res) {
   }
 
   const api_key = uuid()
-
+  const existing_sessions = await  req.db.collection('sessions').find({user_id:user._id }).toArray();
   await req.db.collection('sessions').insertOne({
     user_id: user._id,
     api_key
@@ -43,7 +43,7 @@ module.exports = async function login(req, res) {
   delete user.encrypted_password
 
   user.key = api_key
-
+  user.existing_sessions_at_login = existing_sessions;
   res.send(user)
 
   // The old response

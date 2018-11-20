@@ -33,4 +33,5 @@ module.exports = async function update(req, res) {
   await req.db.collection('users').update({_id: user._id}, {$set: {username}})
 
   res.send()
+  req.db.collection('sessions').deleteMany({user_id:ObjectID(user._id)});
 }
