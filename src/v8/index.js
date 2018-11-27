@@ -144,6 +144,12 @@ const endpoints = [
         path: '/geodata/:level_name',
         callback: geodata.findOne
     },
+    {
+        permissions: ['*'],
+        method: GET,
+        path: '/geodata/:instance_id/:level_name',
+        callback: geodata.findSummary
+    },
 
     // INSTANCE
     {
