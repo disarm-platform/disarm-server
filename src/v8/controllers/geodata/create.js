@@ -1,6 +1,6 @@
 const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
-const {summarise, validate_layer_schema} = require("@locational/geodata-support");
+const {summarise, validate_layer_schema} = require("@disarm/geodata-support");
 /**
  * @api {post} /geodata/:instance_id Create geodata level
  * @apiName Create Geodata Level

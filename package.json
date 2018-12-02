@@ -17,8 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@disarm/geodata-support": "0.0.12",
     "@locational/application-registry-validation": "^2.4.7",
-    "@locational/geodata-support": "0.0.11",
     "@turf/centroid": "^4.5.2",
     "@turf/inside": "^4.5.2",
     "@turf/turf": "^5.1.6",
