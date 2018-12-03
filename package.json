@@ -27,6 +27,7 @@
     "compression": "^1.6.2",
     "cors": "^2.8.1",
     "express": "^4.14.1",
+    "express-fileupload": "^1.0.0",
     "express-mongo-db": "^2.0.3",
     "get-csv": "^3.0.3",
     "json2csv": "^4.2.1",

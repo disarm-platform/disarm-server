@@ -133,9 +133,15 @@ const endpoints = [
 
     // GEODATA
     {
+        permissions: [],
+        method:POST,
+        path:'/uploadgeodata/:instance_id',
+        callback:geodata.upload
+    },
+    {
         permissions: ['write:config'],
         method: POST,
-        path: '/geodata/:instance_id',
+        path: '/geodata/create/:instance_id',
         callback: geodata.create
     },
     {
@@ -147,7 +153,7 @@ const endpoints = [
     {
         permissions: ['*'],
         method: GET,
-        path: '/geodata/:instance_id/:level_name',
+        path: '/geodata/summary/:instance_id/level/:level_name',
         callback: geodata.findSummary
     },
 

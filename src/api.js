@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const Raven = require('raven')
 const compression = require('compression')
 const expressMongoDb = require('express-mongo-db')
+const fileUpload = require('express-fileupload')
 
 // Logging
 const morgan = require('morgan')
@@ -41,6 +42,10 @@ app.use(
         limit: '500mb'
     })
 )
+
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+}))
 
 // Ping route
 app.get('/', (req, res) => {
