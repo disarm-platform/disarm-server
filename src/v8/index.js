@@ -243,6 +243,11 @@ const endpoints = [
         method: DELETE,
         path: '/permission',
         callback: permission.remove
+    },
+    {
+        method: POST,
+        path:'/create_bulk',
+        callback: permission.create_bulk
     }
 ]
 
