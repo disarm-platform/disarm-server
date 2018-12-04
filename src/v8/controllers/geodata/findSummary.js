@@ -14,22 +14,22 @@ module.exports = async function findOne(req, res) {
     const level_name = req.params['level_name']
     const instance_id = req.params['instance_id']
 
+    const allowed = await is_user(req.user._id, instance_id)
+    if (!allowed) {
+        return res.status(401).send({ error: 'Not authorized' })
+    }
+
     const geodata_level_sumaries = await req.db.collection('geodata')
         .find({
             instance_id: ObjectID(instance_id),
             level_name
         }, {
-            geojson:0
+            geojson: 0 // Do not include geojson field
         }).toArray()
 
 
     if(!geodata_level_sumaries[0]){
         return res.send([])
-    }
-
-    const allowed = await is_user(req.user._id, geodata_level_sumaries[0].instance_id)
-    if (!allowed) {
-        return res.status(401).send({ error: 'Not authorized' })
     }
 
     res.send(geodata_level_sumaries)
