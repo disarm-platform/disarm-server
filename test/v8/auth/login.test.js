@@ -1,6 +1,6 @@
 import test from 'ava'
 import request from 'supertest'
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { app } from '../../../src/api'
 import { clear_db, get_db } from '../helper'
 import { ObjectID } from 'mongodb'
