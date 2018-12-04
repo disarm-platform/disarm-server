@@ -121,8 +121,14 @@ const endpoints = [
     {
         permissions: ['write:config'],
         method: POST,
-        path: '/config/:instance_id',
+        path: '/config', // for instance_id
         callback: config.create
+    },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/config/latest', // for instance_id
+        callback:config.findLatest
     },
     {
         permissions: ['*'],
@@ -130,36 +136,24 @@ const endpoints = [
         path: '/config/:config_id',
         callback: config.findOne
     },
-    {
-        permissions:['*'],
-        method:GET,
-        path:'/config/latest',
-        callback:config.findLatest
-    },
 
     // GEODATA
     {
         permissions: [],
-        method:POST,
-        path:'/uploadgeodata/:instance_id',
-        callback:geodata.upload
-    },
-    {
-        permissions: ['write:config'],
         method: POST,
-        path: '/geodata/create/:instance_id',
-        callback: geodata.create
+        path:'/geodata_level/upload',
+        callback:geodata.upload
     },
     {
         permissions: ['*'],
         method: GET,
-        path: '/geodata/:level_name',
+        path: '/geodata_level/:level_id',
         callback: geodata.findOne
     },
     {
         permissions: ['*'],
         method: GET,
-        path: '/geodata/summary/:instance_id/level/:level_name',
+        path: '/geodata/summary', // for instance_id
         callback: geodata.findSummary
     },
 
