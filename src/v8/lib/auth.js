@@ -1,7 +1,3 @@
-const md5 = require('md5')
-
-const getCSV = require('get-csv')
-
 // In memory cache of all known users
 let userList = []
 // In memory cache of all endpoint permissions
@@ -63,51 +59,6 @@ function checkPermission(user, method, path) {
     return allowedGroups.some(group => user.permissions.includes(group))
     //  console.log('Final Result ', final_result)
 
-}
-
-/*
- * Parses users CSV file and populates in-memory cache of users
- * Dynamically generates API keys for all users based on md5 of their properties.
- * API keys will change only if user properties in corresponding CSV change.
- */
-function updateUserList() {
-    const path = process.env.SHEETS_URL || process.env.SHEETS_PATH
-    //console.log('Updating users list from:', path)
-    return getCSV(path).then(parsedCSV => {
-        userList = parsedCSV.map(user => {
-            // Parse permissions
-            user.write = user.write || ''
-            user.read = user.read || ''
-            const readPermissions = user.read.split(',').map(perm => 'read:' + perm.toLowerCase().trim())
-            const writePermissions = user.write.split(',').map(perm => 'write:' + perm.toLowerCase().trim())
-            const derivedPermissions = user.write.split(',').map(perm => 'read:' + perm.toLowerCase().trim())
-
-            const allPermissions = readPermissions.concat(writePermissions).concat(derivedPermissions)
-            const uniquePermissions = allPermissions.reduce((acc, rule) => {
-                if (!acc.includes(rule)) {
-                    acc.push(rule)
-                }
-                return acc
-            }, [])
-            user.permissions = uniquePermissions
-
-
-            // Generate allowed apps
-            user.allowed_apps = {
-                read: user.read.split(',').map(t => t.toLowerCase().trim()),
-                write: user.write.split(',').map(t => t.toLowerCase().trim())
-            }
-
-            // Generate key
-            user.key = md5(process.env.SECRET + user.username + user.password + user.read + user.write + user.instance_slug)
-            // console.log('Created user', user.username, user.key)
-
-            return user
-        })
-        return userList
-    }).catch(err => {
-        console.log('Failed to read CSV with error:', err)
-    })
 }
 
 /*
@@ -200,21 +151,13 @@ function optionsMiddleware(req, res, next) {
     }
 }
 
-function forceUpdateUserList(req, res) {
-    updateUserList().then(() => {
-        const message = 'Successful update of userList'
-        res.send(message)
-    })
-}
 
 module.exports = {
     addPermission,
     checkPermission,
-    updateUserList,
     findByApiKey,
     findByUsernamePassword,
     authMiddleware,
     endpointPermissionsMiddleware,
     optionsMiddleware,
-    forceUpdateUserList
 }

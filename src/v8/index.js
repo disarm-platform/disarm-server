@@ -16,8 +16,6 @@ const {is_logged_in} = require('./lib/middleware/is_logged_in')
 
 const {url_base} = require('./lib/url_helper')
 
-Auth.updateUserList()
-// TODO: Remove side effect
 let _version = '';
 
 const version_meta = (req, res) => res.send({
