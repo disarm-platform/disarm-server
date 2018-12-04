@@ -50,6 +50,7 @@
     "node": "8.5.0"
   },
   "devDependencies": {
+    "as-table": "^1.0.36",
     "ava": "^0.22.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
