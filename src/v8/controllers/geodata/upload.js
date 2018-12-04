@@ -7,7 +7,7 @@ module.exports = async function upload(req, res) {
     const {name,data} = req.files.file
     _data = JSON.parse(data.toString())
     const summary = summarise(_data)
-    
+
     const geodata_level_with_highest_version = await req.db.collection('geodata')
         .findOne({
             instance_id: ObjectID(instance_id),

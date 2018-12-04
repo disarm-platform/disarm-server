@@ -130,6 +130,12 @@ const endpoints = [
         path: '/config/:config_id',
         callback: config.findOne
     },
+    {
+        permissions:['*'],
+        method:GET,
+        path:'/config/latest',
+        callback:config.findLatest
+    },
 
     // GEODATA
     {
