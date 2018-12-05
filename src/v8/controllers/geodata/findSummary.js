@@ -11,7 +11,7 @@ const {is_user} = require('../../lib/helpers/is_user')
 
 
 module.exports = async function findSummary(req, res) {
-    const instance_id = req.params['instance_id']
+    const instance_id = req.query['instance_id']
 
     const allowed = await is_user(req.user._id, instance_id)
     if (!allowed) {
@@ -20,18 +20,20 @@ module.exports = async function findSummary(req, res) {
 
     const query = {instance_id: ObjectID(instance_id)}
 
-    const unique_levels = await req.db.collection('geodata').distinct('level_name',query)
+    const unique_levels = await req.db.collection('geodata').distinct('level_name', query)
 
-    const geodata_level_summaries = unique_levels.reduce(async (acc,level_name) => {
+    const geodata_level_summaries = unique_levels.reduce(async (acc, level_name) => {
+        const acc_resolved = await acc
         const level_query = {...query,level_name}
-        const level_summaries = await req.db.collection('geodata')
-            .find(level_query,
-                {
-                    geojson: 0 // Do not include geojson field
-                }
-            ).limit(5).toArray()
-        return acc.concat(level_summaries)
-    },[])
+        
+        const level_summary = await req.db.collection('geodata')
+            .find(level_query, {geojson: 0}) // Do not include geojson field
+            .limit(5)
+            .toArray()
+        
+        acc_resolved.push(level_summary)
+        return acc_resolved
+    }, Promise.resolve([]))
 
-    res.send(geodata_level_summaries)
+    res.send(await geodata_level_summaries)
 }
