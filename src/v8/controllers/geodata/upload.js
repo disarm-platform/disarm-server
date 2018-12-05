@@ -18,7 +18,8 @@ module.exports = async function upload(req, res) {
             level_name: level_name,
             filename: filename,
             summary,
-            geojson: _data
+            geojson: _data,
+            created_at: new Date()
         })
 
         res.send(summary);

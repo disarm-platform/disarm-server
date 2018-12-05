@@ -30,13 +30,8 @@ module.exports = async function findSummary(req, res) {
             .find(level_query, {geojson: 0}) // Do not include geojson field
             .limit(5)
             .toArray()
-        
-        const timestamped = level_summary.map((level) => {
-            level.auto_created_at = ObjectID(level._id).getTimestamp()
-            return level
-        })
 
-        const result = acc_resolved.concat(timestamped)
+        const result = acc_resolved.concat(level_summary)
         return result
     }, Promise.resolve([]))
 
