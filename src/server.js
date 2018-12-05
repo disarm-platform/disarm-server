@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient
-
+const bcrypt = require('bcryptjs')
 
 // Need a SECRET for a bit of extra safety
 if (!process.env.SECRET) {
@@ -37,7 +37,6 @@ MongoClient.connect(process.env.MONGODB_URI)
         if(process.env.DEPLOYMENT_USER&&process.env.DEPLOYMENT_PASSWORD){
             let user = await db.collection('users').findOne({});
             if(!user){
-                const bcrypt = require('bcrypt')
                 const encrypted_password = await bcrypt.hash(process.env.DEPLOYMENT_PASSWORD, 10)
                 let deployment_user = await db.collection('users').insertOne({
                     username:process.env.DEPLOYMENT_USER,
@@ -53,9 +52,8 @@ MongoClient.connect(process.env.MONGODB_URI)
     })
 
 
-
-function launch() {
-    const api = require('./api').app
+    function launch() {
+    const api = require('./api').api
 
     const port = process.env.PORT || 3000
 

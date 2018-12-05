@@ -1,5 +1,5 @@
 const ObjectID = require('mongodb').ObjectID
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const {can} = require('../../lib/helpers/can')
 
 /**

@@ -12,7 +12,8 @@
     "debug": "env DEPLOYMENT_USER=admin DEPLOYMENT_PASSWORD=complex NODE_ENV=development MONGODB_URI=mongodb://localhost/douma SHEETS_PATH=test.csv SECRET=goldengoose  node --inspect-brk src/server.js",
     "build_deploy_prod": "git push heroku master; git push origin master",
     "build_deploy_stage": "git push heroku-stage master; git push origin master",
-    "deploy_all": "npm run build_deploy_stage; npm run build_deploy_prod"
+    "deploy_all": "npm run build_deploy_stage; npm run build_deploy_prod",
+    "routes": "node ./print_v8_routes"
   },
   "author": "",
   "license": "ISC",
@@ -50,6 +51,7 @@
     "node": "8.5.0"
   },
   "devDependencies": {
+    "as-table": "^1.0.36",
     "ava": "^0.22.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
