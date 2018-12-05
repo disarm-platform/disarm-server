@@ -5,8 +5,8 @@ const {summarise, validate_layer_schema} = require("@disarm/geodata-support");
 module.exports = async function upload(req, res) {
 
     const instance_id = req.query['instance_id']
-    const level_name = req.query['level_name']
-    const {filename, data} = req.files.file
+    const level_name = req.body['level_name']
+    const {name, data} = req.files.file
 
     const _data = JSON.parse(data.toString())
 
@@ -16,9 +16,10 @@ module.exports = async function upload(req, res) {
         await req.db.collection('geodata').insertOne({
             instance_id: ObjectID(instance_id),
             level_name: level_name,
-            filename: filename,
+            filename: name,
             summary,
-            geojson: _data
+            geojson: _data,
+            created_at: new Date()
         })
 
         res.send(summary);

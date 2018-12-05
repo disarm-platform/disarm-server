@@ -30,7 +30,7 @@ module.exports = async function findSummary(req, res) {
             .find(level_query, {geojson: 0}) // Do not include geojson field
             .limit(5)
             .toArray()
-        
+
         const result = acc_resolved.concat(level_summary)
         return result
     }, Promise.resolve([]))
