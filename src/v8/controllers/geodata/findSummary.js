@@ -31,8 +31,8 @@ module.exports = async function findSummary(req, res) {
             .limit(5)
             .toArray()
         
-        acc_resolved.push(level_summary)
-        return acc_resolved
+        const result = acc_resolved.concat(level_summary)
+        return result
     }, Promise.resolve([]))
 
     res.send(await geodata_level_summaries)
