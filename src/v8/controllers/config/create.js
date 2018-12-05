@@ -25,22 +25,11 @@ module.exports = async function create(req, res) {
   if (!instance) {
     return res.status(400).send({ error: 'invalid instance_id' })
   }
-  
 
-  const config_with_highest_version = await req.db.collection('instance_configs')
-    .findOne({ 
-      instance_id: ObjectID(instance_id) 
-    }, {
-      sort: { version: -1 },
-      limit: 1
-    })
 
     delete req.body._id
 
-  // if there is an existing config we bump the version, if not we start at 1
-  const new_version = config_with_highest_version ? config_with_highest_version.version + 1 : 1 //TODO remove the versioning of the config
   const result = await req.db.collection('instance_configs').insertOne({
-    version: new_version,
     instance_id: ObjectID(instance_id),
     ...req.body
   })
