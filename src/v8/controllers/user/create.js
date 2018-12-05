@@ -19,7 +19,8 @@ const {can} = require('../../lib/helpers/can')
  */
 
 module.exports = async function create(req, res) {
-  const {username, password, instance_id} = req.body
+  const {username, password} = req.body
+  const instance_id = req.query['instance_id']
 
   if (!username) {
     return res.status(400).send({error: "username is required"})
