@@ -20,7 +20,7 @@ module.exports = async function findSummary(req, res) {
 
     const query = {instance_id: ObjectID(instance_id)}
 
-    const unique_levels = await req.db.collection('geodata').distinct('level_name',query).toArray()
+    const unique_levels = await req.db.collection('geodata').distinct('level_name',query)
 
     const geodata_level_summaries = unique_levels.reduce(async (acc,level_name) => {
         const level_query = {...query,level_name}
