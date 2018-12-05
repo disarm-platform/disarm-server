@@ -31,7 +31,12 @@ module.exports = async function findSummary(req, res) {
             .limit(5)
             .toArray()
         
-        const result = acc_resolved.concat(level_summary)
+        const timestamped = level_summary.map((level) => {
+            level.auto_created_at = ObjectID(level._id).getTimestamp()
+            return level
+        })
+
+        const result = acc_resolved.concat(timestamped)
         return result
     }, Promise.resolve([]))
 
