@@ -179,7 +179,7 @@ module.exports = [{
   },
   {
     method: GET,
-    path: '/all_users',
+    path: '/user/all',
     callback: user.findAll
   },
   {
@@ -189,8 +189,13 @@ module.exports = [{
   },
   {
     method: PUT,
-    path: '/user/:user_id',
+    path: '/user',
     callback: user.update
+  },
+  {
+    method:DELETE,
+    path:'/user',
+    callback:user.remove
   },
   {
     method: GET,
@@ -221,7 +226,7 @@ module.exports = [{
   },
   {
     method: POST,
-    path: '/create_bulk',
+    path: '/permission/bulk',
     callback: permission.create_bulk
   }
 ]
