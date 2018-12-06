@@ -14,11 +14,11 @@ const PUT = 'put'
 const DELETE = 'delete'
 
 module.exports = [{
-  permissions: ['*'],
-  method: GET,
-  path: '/',
-  callback: root.root
-},
+    permissions: ['*'],
+    method: GET,
+    path: '/',
+    callback: root.root
+  },
 
   // PLAN
   {
@@ -168,6 +168,11 @@ module.exports = [{
 
   // USERS
   {
+    method: POST,
+    path: '/user',
+    callback: user.create
+  },
+  {
     method: GET,
     path: '/user',
     callback: user.find
@@ -188,17 +193,12 @@ module.exports = [{
     callback: user.update
   },
   {
-    method:GET,
-    path:'/all_with_instances',
-    callback:user.populateInstances
+    method: GET,
+    path: '/all_with_instances',
+    callback: user.populateInstances
   },
 
   // PERMISSIONS
-  {
-    method: POST,
-    path: '/permission',
-    callback: permission.create
-  },
   {
     method: GET,
     path: '/permission/:user_id/:instance_id',
