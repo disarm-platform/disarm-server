@@ -26,6 +26,11 @@ module.exports = async function login(req, res) {
   }
 
   const user = await req.db.collection('users').findOne({username})
+  
+
+  if(!user){
+    return res.status(401).send(error)
+  }
 
   const valid_password = await bcrypt.compare(password, user.encrypted_password)
 
