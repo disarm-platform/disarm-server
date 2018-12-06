@@ -168,11 +168,6 @@ module.exports = [{
 
   // USERS
   {
-    method: POST,
-    path: '/user',
-    callback: user.create
-  },
-  {
     method: GET,
     path: '/user',
     callback: user.find
