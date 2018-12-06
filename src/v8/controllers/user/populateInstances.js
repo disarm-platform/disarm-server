@@ -1,5 +1,6 @@
 const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
+const {sanitize_users} = require("./sanitize_users");
 
 module.exports = async function populateInstances(req, res) {
   const instance_id = req.query['instance_id']
@@ -65,5 +66,5 @@ module.exports = async function populateInstances(req, res) {
   }]).toArray()
 
 
-  res.send(users)
+  res.send(sanitize_users(users))
 }

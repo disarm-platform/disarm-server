@@ -1,6 +1,9 @@
+const {sanitize_users} = require("./sanitize_users");
+
 const ObjectID = require('mongodb').ObjectID
 const bcrypt = require('bcryptjs')
 const {can} = require('../../lib/helpers/can')
+
 
 /**
  * @api {post} /user Create user
@@ -58,5 +61,5 @@ module.exports = async function create(req, res) {
   })
 
   const user = await req.db.collection('users').findOne({ _id: insertedId})
-  res.send(user)
+  res.send(sanitize_users(user))
 }
