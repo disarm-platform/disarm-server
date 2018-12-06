@@ -48,13 +48,6 @@ module.exports = async function populateInstances(req, res) {
           ]
         },
       },
-       /* { remove empty list of instances, but I dont think any permission can have an
-          '$match': {
-            "list": {
-              '$ne': []
-            }
-          }
-        },*/
         {'$unwind': "$list"},
         {'$group': {'_id': "$list"}},
         {

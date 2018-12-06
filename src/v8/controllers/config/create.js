@@ -14,7 +14,7 @@ const {can} = require('../../lib/helpers/can')
 
 
 module.exports = async function create(req, res) {
-  const instance_id = req.params['instance_id']
+  const instance_id = req.query['instance_id']
   
   const allowed = await can(req.user._id, instance_id, 'admin')
   if (!allowed) {
