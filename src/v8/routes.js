@@ -162,7 +162,7 @@ module.exports = [{
 
   {
     method: GET,
-    path: '/instance/:instance_id/published_instanceconfigs',
+    path: '/instance/:instance_id/published',
     callback: instance.populate
   },
 
