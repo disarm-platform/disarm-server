@@ -8,7 +8,7 @@ const { can } = require('../../lib/helpers/can')
  * @apiParam {string} instance_id The id for the instance
  */
 
-module.exports = async function find(req, res) {
+module.exports = async function findAll(req, res) {
     const instance_id = req.query['instance_id']
 
     //  Check if user is admin or super-admin
