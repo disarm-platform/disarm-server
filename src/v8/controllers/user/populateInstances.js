@@ -2,36 +2,68 @@ const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
 
 module.exports = async function find(req, res) {
-  /*const instance_id = req.query['instance_id']
+  const instance_id = req.query['instance_id']
 
   const allowed = req.user.deployment_admin
   if (!allowed) {
     return res.status(401).send()
-  }*/
+  }
 
   const users = await req.db.collection('users').aggregate([{
     '$lookup': {
-      'from': "permisisons",
+      'from': "permissions",
       'let': {'user_id': "$_id"},
       'as': "instances",
       'pipeline': [{
         '$lookup': {
           'from': "instances",
-          'let': {'userid': "$$user_id", 'user_id': "$user_id", 'instance_id': "$instance_id"},
+          'let': {
+            'userid': "$$user_id",
+            'user_id': "$user_id",
+            'instance_id': "$instance_id"
+          },
           'as': "list",
-          'pipeline': [{'$match': {'$expr': {'$and': [{'$eq': ["$_id", "$$instance_id"]}, {'$eq': ["$$userid", "$$user_id"]}]}}}]
+          'pipeline': [
+            {
+              '$match': {
+                '$expr': {
+                  '$and': [
+                    {
+                      '$eq': [
+                        "$_id",
+                        "$$instance_id"
+                      ]
+                    },
+                    {
+                      '$eq': [
+                        "$$userid",
+                        "$$user_id"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
         },
-      }, {'$match': {"list": {'$ne': []}}},
-        {'$unwind': "$list"}, {'$group': {'_id': "$list"}},
-        {'$replaceRoot': {'newRoot': "$_id"}},
+      },
+       /* {
+          '$match': {
+            "list": {
+              '$ne': []
+            }
+          }
+        },*/
+        {'$unwind': "$list"},
+        {'$group': {'_id': "$list"}},
+        {
+          '$replaceRoot': {'newRoot': "$_id"}
+        },
       ]
     }
 
   }]).toArray()
-
-
-
-  console.log(users)
+  
 
   res.send(users)
 }
