@@ -16,6 +16,12 @@ module.exports = async function remove(req, res) {
 
   // TODO: Check if user is admin or super-admin
 
+  const user_tobe_deleted = await db.collection('users').findOne({_id: ObjectID(user_id_to_remove)})
+  
+  if(user_tobe_deleted.deployment_admin){
+    return res.status(403).send('Not Allowed')
+  }
+
   await req.db.collection('users').deleteOne({ _id: ObjectID(user_id_to_remove)})
 
   // TODO: Remove all the permissions from the user
