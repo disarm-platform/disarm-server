@@ -20,8 +20,13 @@ module.exports = async function create(req, res) {
   }
 
   if (!req.body.name) {
-    
     return res.status(400).send({error: 'name is required'})
+  }
+
+  const existing_name_count = await req.db.collection('instances').count({name: req.body.name})
+
+  if(existing_name_count>0){
+    return res.status(400).send('Instance Name Already exists')
   }
 
   try {
