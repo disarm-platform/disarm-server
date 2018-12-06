@@ -1,7 +1,7 @@
 const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
 
-module.exports = async function find(req, res) {
+module.exports = async function populateInstances(req, res) {
   const instance_id = req.query['instance_id']
 
   const allowed = req.user.deployment_admin
@@ -47,7 +47,7 @@ module.exports = async function find(req, res) {
           ]
         },
       },
-       /* {
+       /* { remove empty list of instances, but I dont think any permission can have an
           '$match': {
             "list": {
               '$ne': []
@@ -63,7 +63,7 @@ module.exports = async function find(req, res) {
     }
 
   }]).toArray()
-  
+
 
   res.send(users)
 }
