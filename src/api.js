@@ -29,9 +29,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-api.use(cors({
-    exposedHeaders: ['Content-Length']
-}))
+api.use(cors())
 api.use(compression())
 api.use(morgan('combined', {stream: accessLogStream}))
 
@@ -60,20 +58,6 @@ ACTIVE_API_VERSIONS.map(v => {
     const version_routes = require(`./${v}/index`)
     return version_routes(api, v)
 })
-
-// CORS config
-// TODO: @refac Do we need this as well as the `cors` package?
-api.options('/*', function (req, res) {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization, Content-Length, X-Requested-With'
-    )
-    res.send(200)
-})
-// TODO: @refac Might be able to replace above with this:
-// api.options('*', cors())
 
 if (process.env.NODE_ENV === 'production') {
     api.use(Raven.errorHandler())

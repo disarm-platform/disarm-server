@@ -26,7 +26,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
-    "cors": "^2.8.1",
+    "cors": "^2.8.5",
     "express": "^4.14.1",
     "express-fileupload": "^1.0.0",
     "express-mongo-db": "^2.0.3",
