@@ -8,8 +8,8 @@ const { can } = require('../../lib/helpers/can')
  */
 
 module.exports = async function find(req, res) {
-  const is_super_admin = await can(req.user._id)
   const user_id = req.user._id
+  const is_super_admin = await can(req.user._id)
 
   const users_permissions_for_instances = await req.db.collection('permissions').find({
     user_id: ObjectID(user_id)
