@@ -1,12 +1,9 @@
 exports.sanitize_users = (users) => {
-  if (!Array.isArray(users)) {
-    delete users.encrypted_password
-    return users
-  }
+  if (!Array.isArray(users)) return sanitize_one(users)
+  return users.map(user => sanitize_one(user))
+}
 
-  return users.map(user => {
-    delete  user.encrypted_password
-    return user
-  })
-
+function sanitize_one(user) {
+  delete user.encrypted_password
+  return user
 }

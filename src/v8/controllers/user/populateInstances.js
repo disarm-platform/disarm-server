@@ -2,8 +2,16 @@ const ObjectID = require('mongodb').ObjectID
 const {can} = require('../../lib/helpers/can')
 const {sanitize_users} = require("./sanitize_users");
 
+
+/**
+ * Return all users with the instances they have permissions on
+ *
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 module.exports = async function populateInstances(req, res) {
-  const instance_id = req.query['instance_id']
+  // const instance_id = req.query['instance_id']
 
   const allowed = req.user.deployment_admin
   if (!allowed) {

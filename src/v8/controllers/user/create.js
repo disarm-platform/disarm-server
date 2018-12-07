@@ -56,7 +56,7 @@ module.exports = async function create(req, res) {
   const encrypted_password = await bcrypt.hash(password, 10)
 
   const { insertedId } = await req.db.collection('users').insertOne({
-    username,
+    ...req.body,
     encrypted_password,
   })
 

@@ -184,6 +184,11 @@ module.exports = [{
   },
   {
     method: GET,
+    path: '/user/all_for_instance',
+    callback: user.populateInstances
+  },
+    {
+    method: GET,
     path: '/user/:user_id',
     callback: user.findOne
   },
@@ -197,11 +202,7 @@ module.exports = [{
     path:'/user',
     callback:user.remove
   },
-  {
-    method: GET,
-    path: '/all_with_instances',
-    callback: user.populateInstances
-  },
+
 
   // PERMISSIONS
   {
