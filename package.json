@@ -1,6 +1,6 @@
 {
-  "name": "douma-api",
-  "version": "7.0.3",
+  "name": "disarm-server",
+  "version": "8.0.0",
   "description": "",
   "main": "src/server.js",
   "scripts": {
@@ -9,22 +9,26 @@
     "unit-cov": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma_test SHEETS_PATH=test.csv SECRET=goldengoose nyc ava --verbose",
     "unit-watch": "env NODE_ENV=development MONGODB_URI=mongodb://localhost/douma_test SHEETS_PATH=test.csv SECRET=goldengoose ava --watch --serial",
     "dev": "env DEPLOYMENT_USER=admin DEPLOYMENT_PASSWORD=complex NODE_ENV=development MONGODB_URI=mongodb://localhost/douma SHEETS_PATH=test.csv SECRET=goldengoose  nodemon src/server.js './src/*.js'",
+    "debug": "env DEPLOYMENT_USER=admin DEPLOYMENT_PASSWORD=complex NODE_ENV=development MONGODB_URI=mongodb://localhost/douma SHEETS_PATH=test.csv SECRET=goldengoose  node --inspect-brk src/server.js",
     "build_deploy_prod": "git push heroku master; git push origin master",
     "build_deploy_stage": "git push heroku-stage master; git push origin master",
-    "deploy_all": "npm run build_deploy_stage; npm run build_deploy_prod"
+    "deploy_all": "npm run build_deploy_stage; npm run build_deploy_prod",
+    "routes": "node ./print_v8_routes"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@disarm/geodata-support": "0.0.12",
     "@locational/application-registry-validation": "^2.4.7",
     "@turf/centroid": "^4.5.2",
     "@turf/inside": "^4.5.2",
     "@turf/turf": "^5.1.6",
-    "bcrypt": "^3.0.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.1",
     "compression": "^1.6.2",
-    "cors": "^2.8.1",
+    "cors": "^2.8.5",
     "express": "^4.14.1",
+    "express-fileupload": "^1.0.0",
     "express-mongo-db": "^2.0.3",
     "get-csv": "^3.0.3",
     "json2csv": "^4.2.1",
@@ -35,7 +39,6 @@
     "mongomem": "^0.1.9",
     "morgan": "^1.8.2",
     "node-fetch": "^1.6.3",
-    "parse-server": "^2.7.2",
     "raven": "^1.1.2",
     "sails-mongo": "^1.0.0-11",
     "semver-sort": "0.0.4",
@@ -48,6 +51,7 @@
     "node": "8.5.0"
   },
   "devDependencies": {
+    "as-table": "^1.0.36",
     "ava": "^0.22.0",
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",

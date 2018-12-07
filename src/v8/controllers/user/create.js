@@ -1,6 +1,9 @@
+const {sanitize_users} = require("./sanitize_users");
+
 const ObjectID = require('mongodb').ObjectID
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const {can} = require('../../lib/helpers/can')
+
 
 /**
  * @api {post} /user Create user
@@ -19,7 +22,8 @@ const {can} = require('../../lib/helpers/can')
  */
 
 module.exports = async function create(req, res) {
-  const {username, password, instance_id} = req.body
+  const {username, password} = req.body
+  const instance_id = req.query['instance_id']
 
   if (!username) {
     return res.status(400).send({error: "username is required"})
@@ -51,11 +55,13 @@ module.exports = async function create(req, res) {
 
   const encrypted_password = await bcrypt.hash(password, 10)
 
+  const sanitized_user = sanitize_users(req.body)
+  delete sanitized_user._id
   const { insertedId } = await req.db.collection('users').insertOne({
-    username,
+    ...sanitized_user,
     encrypted_password,
   })
 
   const user = await req.db.collection('users').findOne({ _id: insertedId})
-  res.send(user)
+  res.send(sanitize_users(user))
 }

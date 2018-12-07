@@ -7,13 +7,13 @@ module.exports = async function get_updates(req, res) {
 
     const personalised_instance_id = req.query.personalised_instance_id
 
-    const instance_id = req.query.instance_id
+    const instance_id = ObjectID(req.query.instance_id)
     const instance = await req.db.collection('instances').findOne({_id: ObjectID(instance_id)})
     if (!instance) {
         return res.status(400).send()
     }
 
-    const allowed = await can_any(req.user._id, instance_id, ['read:irs_records_point'])
+    const allowed = await can_any(req.user._id, instance_id, ['read:irs_record_point'])
     if (!allowed) {
         return res.status(401).send()
     }

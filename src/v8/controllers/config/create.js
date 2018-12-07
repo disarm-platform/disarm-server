@@ -14,7 +14,7 @@ const {can} = require('../../lib/helpers/can')
 
 
 module.exports = async function create(req, res) {
-  const instance_id = req.params['instance_id']
+  const instance_id = req.query['instance_id']
   
   const allowed = await can(req.user._id, instance_id, 'admin')
   if (!allowed) {
@@ -25,20 +25,11 @@ module.exports = async function create(req, res) {
   if (!instance) {
     return res.status(400).send({ error: 'invalid instance_id' })
   }
-  
 
-  const config_with_highest_version = await req.db.collection('instance_configs')
-    .findOne({ 
-      instance_id: ObjectID(instance_id) 
-    }, {
-      sort: { version: -1 },
-      limit: 1
-    })
-  
-  // if there is an existing config we bump the version, if not we start at 1
-  const new_version = config_with_highest_version ? config_with_highest_version.version + 1 : 1
-  await req.db.collection('instance_configs').insertOne({
-    version: new_version,
+
+    delete req.body._id
+
+  const result = await req.db.collection('instance_configs').insertOne({
     instance_id: ObjectID(instance_id),
     ...req.body
   })

@@ -1,8 +1,8 @@
 const ObjectID = require('mongodb').ObjectID
 const { can_any } = require('../../lib/helpers/can')
+
 module.exports = async function read(req, res) {
     const assignment_plan = req.db.collection('assignment_plans')
-    const country = req.country
     const personalised_instance_id = req.personalised_instance_id
 
     const instance_id = req.query.instance_id
@@ -18,7 +18,7 @@ module.exports = async function read(req, res) {
     }
 
     assignment_plan
-        .find({country, personalised_instance_id})
+        .find({instance_id, personalised_instance_id})
         .sort({updated_at: -1})
         .limit(1)
         .toArray()

@@ -8,13 +8,17 @@ const ObjectID = require('mongodb').ObjectID
  */
 
 module.exports = async function remove(req, res) {
-  const user_id_to_remove = req.params['id']
+  const user = req.body
+
+  if (user.deployment_admin) {
+    return res.status(403).send('Not Allowed')
+  }
+
+  const user_id_to_remove = user._id
 
   if (!user_id_to_remove) {
     return res.status(400).send({error: "user id is required"})
   }
-
-  // TODO: Check if user is admin or super-admin
 
   await req.db.collection('users').deleteOne({ _id: ObjectID(user_id_to_remove)})
 

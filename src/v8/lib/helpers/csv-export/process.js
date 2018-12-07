@@ -1,6 +1,7 @@
 const json2csv = require('json2csv').parse;
 
 module.exports.process = (json_array) => {
+    if (json_array.length === 0) return ''
     // flatten every record
     const opts = {flatten: true}
 

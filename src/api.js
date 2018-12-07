@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const Raven = require('raven')
 const compression = require('compression')
 const expressMongoDb = require('express-mongo-db')
+const fileUpload = require('express-fileupload')
 
 // Logging
 const morgan = require('morgan')
@@ -20,30 +21,32 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Create application
-const app = express()
+const api = express()
 
 // Configure middleware
 if (process.env.NODE_ENV === 'production') {
-    app.use(Raven.requestHandler())
+    api.use(Raven.requestHandler())
 }
 
 
-app.use(cors({
-    exposedHeaders: ['Content-Length']
-}))
-app.use(compression())
-app.use(morgan('combined', {stream: accessLogStream}))
+api.use(cors())
+api.use(compression())
+api.use(morgan('combined', {stream: accessLogStream}))
 
-app.use(expressMongoDb(process.env.MONGODB_URI))
+api.use(expressMongoDb(process.env.MONGODB_URI))
 
-app.use(
+api.use(
     bodyParser.json({
         limit: '500mb'
     })
 )
 
+api.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+}))
+
 // Ping route
-app.get('/', (req, res) => {
+api.get('/', (req, res) => {
     res.send({
         DOUMA_API: process.env.SOURCE_VERSION || 'DEV',
         route: 'root'
@@ -53,28 +56,14 @@ app.get('/', (req, res) => {
 // Add version-specific routes
 ACTIVE_API_VERSIONS.map(v => {
     const version_routes = require(`./${v}/index`)
-    return version_routes(app, v)
+    return version_routes(api, v)
 })
-
-// CORS config
-// TODO: @refac Do we need this as well as the `cors` package?
-app.options('/*', function (req, res) {
-    res.header('Access-Control-Allow-Origin', '*')
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-    res.header(
-        'Access-Control-Allow-Headers',
-        'Content-Type, Authorization, Content-Length, X-Requested-With'
-    )
-    res.send(200)
-})
-// TODO: @refac Might be able to replace above with this:
-// app.options('*', cors())
 
 if (process.env.NODE_ENV === 'production') {
-    app.use(Raven.errorHandler())
+    api.use(Raven.errorHandler())
 }
 
 
 module.exports = {
-    app
+    api
 }

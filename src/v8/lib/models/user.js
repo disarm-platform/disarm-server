@@ -8,6 +8,7 @@ const user = {
   username: 'string',
 
   encrypted_password: 'string',
+    name:'string',
 
   deployment_admin: 'boolean'
 }

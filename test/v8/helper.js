@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const uuid = require('uuid/v4')
 
 async function get_db() {

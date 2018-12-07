@@ -1,5 +1,6 @@
 const ObjectID = require('mongodb').ObjectID
 const { can } = require('../../lib/helpers/can')
+const {sanitize_users} = require("./sanitize_users");
 /**
  * @api {get} /user Get users
  * @apiName Get users
@@ -32,5 +33,5 @@ module.exports = async function find(req, res) {
   // Might have to first find permissions, if we go with new approach suggested
   const users = await req.db.collection('users').find({}).toArray()
 
-  res.send(users)
+  res.send(sanitize_users(users))
 }

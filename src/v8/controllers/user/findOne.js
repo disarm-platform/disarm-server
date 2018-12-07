@@ -1,5 +1,6 @@
 const ObjectID = require('mongodb').ObjectID
 const { can } = require('../../lib/helpers/can')
+const {sanitize_users} = require("./sanitize_users");
 
 module.exports = async function findOne(req, res) {
   const user_id = req.params.user_id
@@ -25,5 +26,5 @@ module.exports = async function findOne(req, res) {
   }
 
 
-  res.send(found_user)
+  res.send(sanitize_users(found_user))
 }
