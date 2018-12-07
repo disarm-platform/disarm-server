@@ -55,8 +55,10 @@ module.exports = async function create(req, res) {
 
   const encrypted_password = await bcrypt.hash(password, 10)
 
+  const sanitized_user = sanitize_users(req.body)
+  delete sanitized_user._id
   const { insertedId } = await req.db.collection('users').insertOne({
-    ...req.body,
+    ...sanitized_user,
     encrypted_password,
   })
 

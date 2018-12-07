@@ -20,12 +20,7 @@ const {isSuperset} = require('../../lib/helpers/array_utils')
  */
 
 module.exports = async function create(req, res) {
-    const permissions = req.body
-        .map(p => ({
-            value: p.value,
-            user_id: ObjectID(p.user_id),
-            instance_id: ObjectID(p.instance_id)
-        })) // Converting ids to mongodb objectid types
+    const simple_permissions = req.body
 
     const instance_id  = ObjectID(req.query.instance_id)
 
@@ -35,20 +30,28 @@ module.exports = async function create(req, res) {
         return res.status(400).send('No existing instance');
     }
 
-    const incoming_user_ids = [...new Set(permissions.map(p => p.user_id))]
-
-    const users_from_database = (await req.db.collection('users')
+    const user_ids_from_database = (await req.db.collection('users')
         .find({}, {_id: 1}).toArray())
-        .map(u => u._id)
+        .map(u => u._id.toString())
 
-    console.log(users_from_database,incoming_user_ids)
+    // Incoming permissions should be for users in database, so remove any 
+    // that do not have current users in DB
+    const valid_permissions = simple_permissions.filter(permission => {
+        return user_ids_from_database.includes(permission.user_id);
+    }) 
 
-    const valid_users_in_permissions = isSuperset(users_from_database, incoming_user_ids) //Incoming users should exist in database
-
-    if (!valid_users_in_permissions) {
-        return res.status(400).send('Some users dont exist');
+    if (!valid_permissions.length === 0) {
+        return res.status(400).send('No valid permissions sent.');
     }
+
     try {
+        const permissions = valid_permissions
+        .map(p => ({
+            value: p.value,
+            user_id: ObjectID(p.user_id),
+            instance_id: ObjectID(p.instance_id)
+        })) // Converting ids to mongodb objectid types
+
         await req.db.collection('permissions').removeMany({instance_id})
         const result = await req.db.collection('permissions').insertMany(permissions);
         res.status(201).send(result)
