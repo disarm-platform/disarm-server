@@ -26,12 +26,11 @@ module.exports = async function create(req, res) {
     return res.status(400).send({ error: 'invalid instance_id' })
   }
 
-
-    delete req.body._id
+  delete req.body._id
 
   const result = await req.db.collection('instance_configs').insertOne({
+    ...req.body,
     instance_id: ObjectID(instance_id),
-    ...req.body
   })
 
   res.send({status: 'success'})
