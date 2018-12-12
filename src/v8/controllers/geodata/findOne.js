@@ -19,10 +19,10 @@ module.exports = async function findOne(req, res) {
            _id: ObjectID(level_id)
         })
 
-  const allowed = await is_user(req.user._id, geodata_level_with_highest_version.instance_id)
+  const allowed = await is_user(req.user._id, instance_id)
   if (!allowed) {
     return res.status(401).send({ error: 'Not authorized' })
   }
 
-  res.send(geodata_level_with_highest_version.geojson)
+  res.send(geodata_level_with_highest_version)
 }
