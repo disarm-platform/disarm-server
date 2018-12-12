@@ -11,16 +11,12 @@ const { is_user } = require('../../lib/helpers/is_user')
 
 
 module.exports = async function findOne(req, res) {
-  const level_name = req.params['level_name']
+  const level_id = req.params['level_id']
     const instance_id = req.query.instance_id
 
     const geodata_level_with_highest_version = await req.db.collection('geodata')
         .findOne({
-            instance_id: ObjectID(instance_id),
-            level_name
-        }, {
-            sort: { version: -1 },
-            limit: 1
+           _id: ObjectID(level_id)
         })
 
   const allowed = await is_user(req.user._id, geodata_level_with_highest_version.instance_id)
