@@ -33,5 +33,5 @@ module.exports = async function create(req, res) {
     instance_id: ObjectID(instance_id),
   })
 
-  res.send({status: 'success'})
+  res.send({status: 'success', _id: result.insertedId})
 }

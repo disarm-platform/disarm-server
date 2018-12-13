@@ -23,5 +23,5 @@ module.exports = async function current(req, res) {
   }
 
   const plan = await find_latest_plan(req)
-  res.send(plan || {}) // maintaining old functionality, not sure how client handles this
+  res.send(plan)
 }
