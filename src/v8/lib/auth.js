@@ -148,7 +148,7 @@ function findByUsernamePassword(username, password) {
  * will have access to user object in the request.
  */
 function authMiddleware(req, res, next) {
-    const openPaths = ['/login', '/', '/refresh_users','/download_records']
+    const openPaths = ['/login', '/', '/refresh_users','/download_records', '/v8/ping']
 
 
     console.log(openPaths,req.path)

@@ -3,6 +3,7 @@ const Auth = require('./lib/auth')
 const auth_controller = require('./controllers/auth')
 const download_records = require('./controllers/download_records')
 const endpoints = require('./routes')
+const {ping} = require('./controllers/root')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
 
@@ -26,6 +27,7 @@ module.exports = function (app, version) {
     // is_logged_in middleware is not applied to following routes, which need to be accessed without 
     // an API-Key in the headers
     app.post(v('/login'), auth_controller.login)
+    app.get(v('/ping'),ping)
     app.get(v('/download_records'),download_records.find)
 
     endpoints.forEach(make_endpoint)

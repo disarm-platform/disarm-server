@@ -13,7 +13,8 @@ const GET = 'get'
 const PUT = 'put'
 const DELETE = 'delete'
 
-module.exports = [{
+module.exports = [
+  {
     permissions: ['*'],
     method: GET,
     path: '/',
