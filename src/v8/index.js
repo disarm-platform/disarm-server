@@ -4,6 +4,7 @@ const auth_controller = require('./controllers/auth')
 const download_records = require('./controllers/download_records')
 const endpoints = require('./routes')
 const {ping} = require('./controllers/root')
+const geodata = require('./controllers/geodata')
 
 const {is_logged_in} = require('./lib/middleware/is_logged_in')
 
@@ -29,6 +30,7 @@ module.exports = function (app, version) {
     app.post(v('/login'), auth_controller.login)
     app.get(v('/ping'),ping)
     app.get(v('/download_records'),download_records.find)
+    app.get(v('/geodata_level/download'), geodata.findOne)
 
     endpoints.forEach(make_endpoint)
 }

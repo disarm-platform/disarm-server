@@ -129,12 +129,6 @@ module.exports = [
   {
     permissions: ['*'],
     method: GET,
-    path: '/geodata_level/:level_id',
-    callback: geodata.findOne
-  },
-  {
-    permissions: ['*'],
-    method: GET,
     path: '/geodata/summary', // for instance_id
     callback: geodata.findSummary
   },

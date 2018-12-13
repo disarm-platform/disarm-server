@@ -11,18 +11,14 @@ const { is_user } = require('../../lib/helpers/is_user')
 
 
 module.exports = async function findOne(req, res) {
-  const level_id = req.params['level_id']
-    const instance_id = req.query.instance_id
+  const level_id = req.query['level_id']
+  const instance_id = req.query['instance_id']
 
-    const geodata_level_with_highest_version = await req.db.collection('geodata')
-        .findOne({
-           _id: ObjectID(level_id)
-        })
-
-  const allowed = await is_user(req.user._id, instance_id)
-  if (!allowed) {
-    return res.status(401).send({ error: 'Not authorized' })
-  }
+  const geodata_level_with_highest_version = await req.db.collection('geodata')
+      .findOne({
+          _id: ObjectID(level_id),
+          instance_id: ObjectID(instance_id)
+      })
 
   res.send(geodata_level_with_highest_version)
 }
