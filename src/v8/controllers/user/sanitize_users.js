@@ -5,5 +5,6 @@ exports.sanitize_users = (users) => {
 
 function sanitize_one(user) {
   delete user.encrypted_password
+  delete user.password
   return user
 }

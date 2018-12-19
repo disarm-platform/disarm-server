@@ -27,7 +27,12 @@ module.exports = async function update(req, res) {
   delete incoming_user._id
   delete incoming_user.password
 
-  await req.db.collection('users').updateOne({_id:user._id},incoming_user)
+  try {
+    await req.db.collection('users').updateOne({_id:user._id},incoming_user)
+    res.send()
+  }catch (e) {
+    res.status(400).send(e.message)
+  }
 
-  res.send()
+
 }

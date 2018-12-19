@@ -48,15 +48,16 @@ module.exports = async function create(req, res) {
   }
 
 
-  const user_with_same_user_name = await req.db.collection('users').findOne({username})
+  /*const user_with_same_user_name = await req.db.collection('users').findOne({username})
   if (user_with_same_user_name) {
     return res.status(400).send({error: 'User with username already exists.'})
-  }
+  }*/
 
   const encrypted_password = await bcrypt.hash(password, 10)
 
   const sanitized_user = sanitize_users(req.body)
   delete sanitized_user._id
+  try{
   const { insertedId } = await req.db.collection('users').insertOne({
     ...sanitized_user,
     encrypted_password,
@@ -64,4 +65,9 @@ module.exports = async function create(req, res) {
 
   const user = await req.db.collection('users').findOne({ _id: insertedId})
   res.send(sanitize_users(user))
+}catch (e) {
+  res.status(400).send(e.message)
+}
+
+
 }

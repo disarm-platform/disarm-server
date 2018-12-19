@@ -11,7 +11,7 @@ const {sanitize_users} = require("./sanitize_users");
  * @returns
  */
 module.exports = async function populateInstances(req, res) {
-  // const instance_id = req.query['instance_id']
+
 
   const allowed = req.user.deployment_admin
   if (!allowed) {
