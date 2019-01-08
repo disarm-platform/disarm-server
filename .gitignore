@@ -3,3 +3,4 @@ log
 .idea
 logs
 package-lock.json
+.nyc_output
