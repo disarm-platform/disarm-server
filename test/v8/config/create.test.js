@@ -59,7 +59,7 @@ test('POST /v8/config can create config', async t => {
   t.is(number_of_docs, 1)
 })
 
-test('POST /v8/config creating a new config sets version to 1', async t => {
+test.skip('POST /v8/config creating a new config sets version to 1', async t => { //NO VERSIONS
   const db = await get_db()
   const user = await create_user()
 
@@ -86,7 +86,7 @@ test('POST /v8/config creating a new config sets version to 1', async t => {
   t.is(config.version, 1)
 })
 
-test('POST /v8/config creating a config when an one exists bumps the version by 1', async t => {
+test.skip('POST /v8/config creating a config when an one exists bumps the version by 1', async t => { // We dont use versions anymore
   const db = await get_db()
   const user = await create_user()
 
@@ -106,8 +106,8 @@ test('POST /v8/config creating a config when an one exists bumps the version by 
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/config/${insertedId}`)
-    .set('API-key', user.key)
+  const res = await request(app).post(`/v8/config?instance_id=${insertedId}`)
+    .set('API-Key', user.key)
     .send({
       name: 'test config'
     })
