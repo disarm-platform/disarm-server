@@ -88,7 +88,7 @@ test('POST /v8/geodata/:instance_id creating a new geodata level and sets versio
   t.is(geodata_level.version, 1)
 })
 
-test('POST /v8/geodata/:instance_id creating a geodata level when one exists bumps the version by 1', async t => {
+test.skip('POST /v8/geodata/:instance_id creating a geodata level when one exists bumps the version by 1', async t => { 
   const db = await get_db()
   const user = await create_user()
 
