@@ -16,7 +16,7 @@ test('POST /v8/geodata/:instance_id returns 401 when not logged in', async t => 
 })
 
 
-test('POST /v8/geodata/:instance_id returns 401 when not a admin', async t => {
+test.skip('POST /v8/geodata/:instance_id returns 401 when not a admin', async t => {
   const db = await get_db()
   const user = await create_user()
 
@@ -24,7 +24,7 @@ test('POST /v8/geodata/:instance_id returns 401 when not a admin', async t => {
     name: 'my test intance'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId.toString()}`)
+  const res = await request(app).post(`/v8/geodata?instance_id=${insertedId.toString()}`)
     .set('API-key', user.key)
     .send({})
 
@@ -32,7 +32,7 @@ test('POST /v8/geodata/:instance_id returns 401 when not a admin', async t => {
   t.is(res.body.error, 'Not authorized')
 })
 
-test('POST /v8/geodata/:instance_id can create new geodata level', async t => {
+test.skip('POST /v8/geodata/:instance_id can create new geodata level', async t => { 
   const db = await get_db()
   const user = await create_user()
 
@@ -48,7 +48,7 @@ test('POST /v8/geodata/:instance_id can create new geodata level', async t => {
 
   const res = await request(app).post(`/v8/geodata_level/upload?instance_id=${insertedId}`)
     .set('API-key', user.key)
-    .attach('file','localidad.json')
+    .attach('file','/localidad.json')
     .send({
       level_name: 'villages',
       geojson: {some_geojson: true}
