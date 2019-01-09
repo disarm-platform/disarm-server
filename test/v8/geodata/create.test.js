@@ -46,8 +46,9 @@ test('POST /v8/geodata/:instance_id can create new geodata level', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/geodata/${insertedId}`)
+  const res = await request(app).post(`/v8/geodata_level/upload?instance_id=${insertedId}`)
     .set('API-key', user.key)
+    .attach('file','localidad.json')
     .send({
       level_name: 'villages',
       geojson: {some_geojson: true}
