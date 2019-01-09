@@ -4,3 +4,4 @@ log
 logs
 package-lock.json
 .nyc_output
+.DS_Store
