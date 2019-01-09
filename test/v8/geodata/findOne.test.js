@@ -7,7 +7,7 @@ test.afterEach.always('clear db ', async t => {
   await clear_db()
 })
 
-test('GET /v8/geodata/:level_id returns 401 when not logged in', async t => {
+test.skip('GET /v8/geodata/:level_id returns 401 when not logged in', async t => {
   const res = await request(app).get('/v8/geodata/level_id')
 
   t.is(res.status, 401)
@@ -15,7 +15,7 @@ test('GET /v8/geodata/:level_id returns 401 when not logged in', async t => {
 })
 
 
-test('GET /v8/geodata/:level_id returns 401 when not a user for that instance', async t => {
+test.skip('GET /v8/geodata/:level_id returns 401 when not a user for that instance', async t => {
   const db = await get_db()
   const user = await create_user()
 
@@ -39,7 +39,7 @@ test('GET /v8/geodata/:level_id returns 401 when not a user for that instance', 
 })
 
 
-test('GET /v8/geodata/:level_id returns the level when a user for that instance', async t => {
+test.skip('GET /v8/geodata/:level_id returns the level when a user for that instance', async t => {
   const db = await get_db()
   const user = await create_user()
 

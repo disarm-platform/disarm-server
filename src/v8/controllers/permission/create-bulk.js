@@ -52,6 +52,7 @@ module.exports = async function create(req, res) {
             instance_id: ObjectID(p.instance_id)
         })) // Converting ids to mongodb objectid types
 
+
         await req.db.collection('permissions').removeMany({instance_id})
         const result = await req.db.collection('permissions').insertMany(permissions);
         res.status(201).send(result)

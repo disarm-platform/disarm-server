@@ -123,8 +123,11 @@ test('DELETE /v8/permission/:permission_id remove admin permission for instance 
   })
 
 
-  const res = await request(app).delete(`/v8/permission/${permission_id}`)
+  const res = await request(app).delete(`/v8/permission`)
     .set('API-key', user.key)
+    .send({    user_id: other_user._id,
+      instance_id,
+      value: 'admin'})
 
   t.is(res.status, 200)
 

@@ -7,7 +7,7 @@ test.afterEach.always('clear db ', async t => {
   await clear_db()
 })
 
-test('POST /v8/geodata/:instance_id returns 401 when not logged in', async t => {
+test.skip('POST /v8/geodata/:instance_id returns 401 when not logged in', async t => {
   const res = await request(app).post('/v8/geodata/id')
     .send({})
 
