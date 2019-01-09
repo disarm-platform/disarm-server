@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('POST /v8/config returns 401 when not logged in', async t => {
-  const res = await request(app).post('/v8/config/id')
+  const res = await request(app).post('/v8/config')
     .send({})
 
   t.is(res.status, 401)
@@ -24,7 +24,7 @@ test('POST /v8/config returns 401 when not a admin', async t => {
     name: 'my test intance'
   })
 
-  const res = await request(app).post(`/v8/config/${insertedId.toString()}`)
+  const res = await request(app).post(`/v8/config?instance_id=${insertedId}`)
     .set('API-key', user.key)
     .send({})
 
@@ -46,7 +46,7 @@ test('POST /v8/config can create config', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post(`/v8/config/${insertedId}`)
+  const res = await request(app).post(`/v8/config?instance_id=${insertedId}`)
     .set('API-key', user.key)
     .send({
       name: 'test config'
