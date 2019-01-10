@@ -36,10 +36,10 @@ test('get from /record/updates with user with read:irs_record_point returns list
         name: 'my_instance_thing'
     })
 
-    await db.collection('permissions').insertOne({
+    const permisison = await db.collection('permissions').insertOne({
         user_id: user._id,
         instance_id,
-        value: 'read:irs_records_point'
+        value: 'read:irs_record_point'
     })
 
     await db.collection('records').insertOne({
@@ -64,7 +64,7 @@ test('get from /record/updates with user with read:irs_record_point returns list
 
     t.is(res.status, 200)
 
-    t.is(res.body.length, 0)
+    t.is(res.body.length, 2)
 })
 
 
@@ -81,7 +81,7 @@ test('get from /record/updates records outside of filter', async t => {
     await db.collection('permissions').insertOne({
         user_id: user._id,
         instance_id,
-        value: 'read:irs_records_point'
+        value: 'read:irs_record_point'
     })
 
     await db.collection('records').insertOne({
@@ -106,7 +106,7 @@ test('get from /record/updates records outside of filter', async t => {
 
     t.is(res.status, 200)
 
-    t.is(res.body.length, 0)
+    t.is(res.body.length, 2)
 })
 
 test('GET from /record/updates with admin user  returns list of records', async t => {
@@ -147,7 +147,7 @@ test('GET from /record/updates with admin user  returns list of records', async 
 
     t.is(res.status, 200)
 
-    t.is(res.body.length, 0)
+    t.is(res.body.length, 2)
 })
 
 test('get from /record/updates without personalised_instance_id return only records without the personalysed_instance_id', async t => {
@@ -163,7 +163,7 @@ test('get from /record/updates without personalised_instance_id return only reco
     await db.collection('permissions').insertOne({
         user_id: user._id,
         instance_id,
-        value: 'read:irs_records_point'
+        value: 'read:irs_record_point'
     })
 
     await db.collection('records').insertOne({
@@ -187,7 +187,7 @@ test('get from /record/updates without personalised_instance_id return only reco
 
     t.is(res.status, 200)
 
-    t.is(res.body.length, 0)
+    t.is(res.body.length, 1)
 })
 
 test('get from /record/updates without start_date and end_date', async t => {
@@ -203,7 +203,7 @@ test('get from /record/updates without start_date and end_date', async t => {
     await db.collection('permissions').insertOne({
         user_id: user._id,
         instance_id,
-        value: 'read:irs_records_point'
+        value: 'read:irs_record_point'
     })
 
     await db.collection('records').insertOne({

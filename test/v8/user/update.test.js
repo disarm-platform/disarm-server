@@ -23,7 +23,7 @@ test('PUT /v8/user returns 401 when not an admin for user', async t => {
   const res = await request(app).put(`/v8/user`)
     .set('API-key', user.key)
     .send()
-
+console.log(res.body)
   t.is(res.status, 401)
 })
 

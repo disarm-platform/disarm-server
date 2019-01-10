@@ -9,20 +9,21 @@ test.afterEach.always('clear db ', async t => {
 
 
 test('DELETE /v8/permission returns 401 when not logged in', async t => {
-  const res = await request(app).delete('/v8/permission/id')
+  const res = await request(app).delete('/v8/permission')
     .send({})
 
   t.is(res.status, 401)
 })
 
-test('DELETE /v8/permission returns 400 when permissions_id is invalid', async t => {
+test('DELETE /v8/permission returns 401 when permissions_id is invalid', async t => {
   // const db = await get_db()
   const user = await create_user()
 
-  const res = await request(app).delete(`/v8/permission/123123123123`)
+  const res = await request(app).delete(`/v8/permission`)
     .set('API-key', user.key)
+    
 
-  t.is(res.status, 400)
+  t.is(res.status, 401)
 })
 
 test('DELETE /v8/permission returns 401 when not an admin for instance that permission belongs to ', async t => {
@@ -41,7 +42,7 @@ test('DELETE /v8/permission returns 401 when not an admin for instance that perm
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).delete(`/v8/permission/${permission_id}`)
+  const res = await request(app).delete(`/v8/permission?instance_id=${instance_id}`)
     .set('API-key', user.key)
 
   t.is(res.status, 401)
@@ -57,15 +58,18 @@ test('DELETE /v8/permission returns 401 removing admin permission and not being 
     name: 'test_instance_1'
   })
 
-  const { insertedId: permission_id } = await db.collection('permissions').insertOne({
+  const inserted_permission = {
     user_id: other_user._id,
     instance_id,
     value: 'admin'
-  })
+  }
+   await db.collection('permissions').insertOne(inserted_permission)
 
 
-  const res = await request(app).delete(`/v8/permission/${permission_id}`)
+  const res = await request(app)
+    .delete(`/v8/permission?instance_id=${instance_id}`)
     .set('API-key', user.key)
+    .send(inserted_permission)
 
   t.is(res.status, 401)
 })
@@ -88,19 +92,25 @@ test('DELETE /v8/permission/:permission_id remove regular permission from user w
   })
 
   // permission for other user
-  const { insertedId: permission_id } = await db.collection('permissions').insertOne({
+  const inserted_permission= {
     user_id: other_user._id,
     instance_id,
     value: 'read:irs_monitor'
-  })
+  }
+  await db.collection('permissions').insertOne(inserted_permission)
 
+  console.log('instance_id',instance_id,'user',user)
 
-  const res = await request(app).delete(`/v8/permission/${permission_id}`)
+  const res = await request(app)
+    .delete(`/v8/permission?instance_id=${instance_id}`)
     .set('API-key', user.key)
+    .send(inserted_permission)
+  
+    t.is(res.status, 200)
 
-  t.is(res.status, 200)
-
-  const permission = await db.collection('permissions').findOne({ _id: permission_id })
+  const permission = await db.collection('permissions').findOne({  user_id: other_user._id,
+    instance_id,
+    value: 'read:irs_monitor'})
 
   t.falsy(permission)
 })

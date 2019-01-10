@@ -74,7 +74,7 @@ module.exports = [
   },
   {
     permissions: ['read:irs_record_point', 'read:irs_monitor'],
-    method: POST,
+    method: GET,
     path: '/record/updates',
     callback: record.get_updates
   },
