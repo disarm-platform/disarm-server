@@ -8,7 +8,7 @@ test.afterEach.always('clear db ', async t => {
 })
 
 test('POST /v8/user returns 401 when not logged in', async t => {
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post(`/v8/user`)
     .send()
 
   t.is(res.status, 401)
@@ -20,7 +20,7 @@ test('POST /v8/user returns 401 when logged in but not an admin for instance', a
   
   const { insertedId: instance_id } = await db.collection('instances').insertOne({ name: 'test_instance' }) // create instance
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post(`/v8/user?instance_id=${instance_id}`)
     .set('API-key', user.key)
     .send({
       username: 'user_2',
@@ -46,7 +46,7 @@ test('POST /v8/user returns 400 whwen creating a  user with a username that alre
 
   await create_user({username: 'my_user_1'})
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post(`/v8/user?instance_id=${insertedId}`)
     .set('API-key', user.key)
     .send({
       username: 'my_user_1',
@@ -70,14 +70,13 @@ test('POST /v8/user creates a  user', async t => {
     value: 'admin'
   })
 
-  const res = await request(app).post('/v8/user')
+  const res = await request(app).post(`/v8/user?instance_id=${insertedId}`)
     .set('API-key', user.key)
     .send({
       username: 'test_user',
       password: 'verysafe123',
       instance_id: insertedId
     })
-
   t.is(res.status, 200)
   
   const found_user = await db.collection('users').findOne({username: 'test_user'})

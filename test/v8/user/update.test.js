@@ -22,15 +22,17 @@ test('PUT /v8/user returns 401 when not an admin for user', async t => {
 
   const res = await request(app).put(`/v8/user`)
     .set('API-key', user.key)
-    .send()
-console.log(res.body)
+    .send({
+      _id:other_user._id,
+      username: 'not_test_user'
+    })
   t.is(res.status, 401)
 })
 
 
 test('PUT /v8/user/:user_id changes username', async t => {
   const db = await get_db()
-  const user = await create_user()
+  const user = await create_user({deployment_admin:true})
 
   const {insertedId: instance_id} = await db.collection('instances').insertOne({
     name: 'test_instance_1'
@@ -50,9 +52,10 @@ test('PUT /v8/user/:user_id changes username', async t => {
     value: 'read:irs_monitor'
   })
 
-  const res = await request(app).put(`/v8/user/${other_user._id}`)
+  const res = await request(app).put(`/v8/user?instance_id=${instance_id}`)
     .set('API-key', user.key)
     .send({
+      _id:other_user._id,
       username: 'not_test_user'
     })
 
