@@ -7,6 +7,7 @@ module.exports = async function update(req, res) {
   
   const user = await req.db.collection('users').findOne({_id: ObjectID(incoming_user._id)})
   if (!user) {
+    console.log('No User')
     return res.status(400).send()
   }
 
@@ -19,11 +20,13 @@ module.exports = async function update(req, res) {
 
   const username = req.body.username
   if (!username) {
+    console.log('No username')
     return res.status(400).send()
   }
-
-  incoming_user.encrypted_password =  await bcrypt.hash(incoming_user.password, 10)
-
+  if(incoming_user.password){
+    incoming_user.encrypted_password =  await bcrypt.hash(incoming_user.password, 10)
+  }
+  
   delete incoming_user._id
   delete incoming_user.password
 
@@ -31,6 +34,7 @@ module.exports = async function update(req, res) {
     await req.db.collection('users').updateOne({_id:user._id},incoming_user)
     res.send()
   }catch (e) {
+    console.log(e)
     res.status(400).send(e.message)
   }
 
