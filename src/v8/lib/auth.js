@@ -42,10 +42,8 @@ function checkPermission(user, method, path) {
 
     path = _path&&_path!=='/' ? _path : path
 
-    console.log('Path ', path,_path, 'Endpoint Permissions', user)
 
     if (!endpointPermissions[method] || !endpointPermissions[method][path]) {
-        console.log('Condition 1 fail', method, path)
         return false
     }
 
@@ -56,7 +54,6 @@ function checkPermission(user, method, path) {
     }
 
     if (!user) {
-        console.log('Condition 3 fail')
         return false
     }
 
@@ -150,11 +147,7 @@ function findByUsernamePassword(username, password) {
 function authMiddleware(req, res, next) {
     const openPaths = ['/login', '/', '/refresh_users','/download_records', '/geodata_level/download', '/v8/ping']
 
-
-    console.log(openPaths,req.path)
-
     if (openPaths.includes(req.path)){
-        console.log('Ope  paths')
         return next()
     }
 

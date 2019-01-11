@@ -14,7 +14,6 @@ module.exports = async (req, res) => {
     const instance = await req.db.collection('instances').findOne({_id: ObjectID(instance_id)})
     
     if(!download_key){
-        console.log('No download key',download_key)
         return res.status(403).send('Forbidden')
     }
     
@@ -23,7 +22,6 @@ module.exports = async (req, res) => {
     const user = await users_collection.findOne({api_key:download_key})
     
     if(!user){
-        console.log('Cant find by key')
         return res.status(403).send('Forbidden')
     }
 
@@ -46,7 +44,6 @@ module.exports = async (req, res) => {
         readStream.pipe(res);
 
     } catch (e) {
-        console.log(e)
         res.status(500).send(e.message);
     }
 

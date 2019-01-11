@@ -44,10 +44,8 @@ module.exports = async function update (req, res) {
     .then(async current_plan => {
       if (incoming_plan.focus_filter_area) {
         try {
-          console.log('Current Plan ', current_plan)
           incoming_plan = await filter_plan_targets_for_focus_area(req, incoming_plan, current_plan)
         } catch (e) {
-          console.log('Current Plan ', e)
           return res.status(400).send({ message: e })
         }
       }
@@ -58,7 +56,6 @@ module.exports = async function update (req, res) {
         .catch(error => res.status(500).send('There was an error while saving'))
     })
     .catch(error => {
-      console.log('404', error)
       res.status(404).send('Plan could not be found')
     })
 }

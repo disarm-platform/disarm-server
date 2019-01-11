@@ -24,8 +24,6 @@ module.exports = async function remove(req, res) {
     return res.status(401).send()
   }
 
-  console.log(user_id,instance_id,value)
-
 
 
   await req.db.collection('permissions').deleteMany({
